@@ -69,7 +69,7 @@ public class ServiceLogic {
         serviceRepository.delete(service);
     }
 
-    public void ajoutrService(Service service, Categorie categorie) {
+    public void ajouterService(Service service, Categorie categorie) {
         serviceRepository.save(service);
     }
 

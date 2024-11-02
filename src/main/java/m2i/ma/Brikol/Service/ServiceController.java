@@ -3,9 +3,7 @@ package m2i.ma.Brikol.Service;
 import m2i.ma.Brikol.Categorie.Categorie;
 import m2i.ma.Brikol.Freelancer.Freelancer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/service")
@@ -55,6 +53,16 @@ public class ServiceController {
         public void modfierTous(Service service, Categorie categorie, String titre, Double prix, String description) {
             serviceLogic.modfierTous(service, categorie, titre, prix, description);
         }
+        @PostMapping("/createService")
+        public void createService(@RequestBody  Service service, Categorie categorie) {
+             serviceLogic.ajouterService(service, categorie);
+            //TODO :change return for status code reponse
+        }
+        @GetMapping("/deleteService")
+        public void deleteService(Service service) {
+            serviceLogic.supprimerService(service);
+        }
+
 
 
 }
