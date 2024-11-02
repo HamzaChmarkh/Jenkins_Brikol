@@ -1,7 +1,10 @@
 package m2i.ma.Brikol.Service;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import m2i.ma.Brikol.Categorie.Categorie;
 import m2i.ma.Brikol.Freelancer.Freelancer;
 
@@ -16,9 +19,11 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "titre")
     private String titre;
+    @Column(name = "description")
     private String description;
+    @Column(name = "prix")
     private Double prix;
 
     @ManyToOne
@@ -29,21 +34,5 @@ public class Service {
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
-    public void afficherDetails() {
-        // Logic to display service details
-    }
-
-  public void supprimerService(Service service) {
-        Categorie categorie = this.categorie;
-        service.setFreelancer(null); // Remove the link to this freelancer
-        service.setCategorie(null); // Remove the link to Catego
-        categorie.supprimerService(service);
-    }
-
-    public void modifierService(Service service) {
-        service.setFreelancer(freelancer);
-        service.setCategorie(categorie);
-
-    }
 
 }

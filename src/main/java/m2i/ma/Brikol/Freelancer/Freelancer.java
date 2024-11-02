@@ -19,23 +19,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Freelancer extends Utilisateur {
 
-    private String specialisation;
+
 
     @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL)
     private List<Service> servicesProposes;
 
-    public void ajouterService(Service service, Categorie categorie) {
-        servicesProposes.add(service);
-        service.setFreelancer(this); // Set this freelancer for the service
-        service.setCategorie(categorie);
-    }
-
-    public void modifierService(Service service) {
-        // Logic to modify the service
-    }
-
-    public void supprimerService(Service service) {
-        servicesProposes.remove(service);
-        service.supprimerService(service);
-    }
 }
