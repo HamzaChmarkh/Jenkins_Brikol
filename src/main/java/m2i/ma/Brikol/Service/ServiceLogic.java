@@ -3,7 +3,7 @@ package m2i.ma.Brikol.Service;
 import jakarta.persistence.EntityNotFoundException;
 import m2i.ma.Brikol.Categorie.Categorie;
 import m2i.ma.Brikol.Freelancer.Freelancer;
-import m2i.ma.Brikol.Freelancer.FreelancerRepository;
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service
@@ -13,70 +13,120 @@ public class ServiceLogic {
     private final ServiceRepository serviceRepository;
 
     @Autowired
-    public ServiceLogic(FreelancerRepository freelancerRepository, ServiceRepository serviceRepository) {
+    public ServiceLogic( ServiceRepository serviceRepository) {
         this.serviceRepository = serviceRepository;
     }
 
-    public void modfierTous(Service service, Categorie categorie, String titre, Double prix, String description) {
+    public void modfierTous(Service service, Categorie categorie) {
+        try {
         serviceRepository.updateServiceByCategorie(categorie);
-        serviceRepository.updateServiceByTitre(titre);
-        serviceRepository.updateServiceByPrix(prix);
-        serviceRepository.updateServiceByDescription(description);
+        serviceRepository.updateServiceByTitre(service.getTitre());
+        serviceRepository.updateServiceByPrix(service.getPrix());
+        serviceRepository.updateServiceByDescription(service.getDescription());
         serviceRepository.updateServiceByFreelancer(service.getFreelancer());
+
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while updating all service fields", e);
+    }
     }
 
     public void modifierFreelancer(Service service, Freelancer freelancer) {
-        serviceRepository.updateServiceByFreelancer(freelancer);
+        try {
+            serviceRepository.updateServiceByFreelancer(freelancer);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while updating the service freelancer", e);
+    }
     }
 
     public void modifierCategory(Service service, Categorie categorie) {
-        serviceRepository.updateServiceByCategorie(categorie);
+        try {
+            serviceRepository.updateServiceByCategorie(categorie);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while updating the service category", e);
+    }
     }
 
     public void modiferTitre(String titre) {
-        serviceRepository.updateServiceByTitre(titre);
+        try {
+            serviceRepository.updateServiceByTitre(titre);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while updating the service title", e);
+        }
     }
-
     public Service getServiceById(Long id) {
         try {
-            return serviceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Sevice not found"));
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new ServcieException("An error occured while fetching the service");
+            return serviceRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("Service with id: " + id + " not found"));
+        } catch (EntityNotFoundException e) {
+            throw e; // Relancer l'exception pour qu'elle soit capturée par le ControllerAdvice
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while fetching the service", e);
         }
     }
 
+
     public Service getServiceByCategorie(Categorie categorie) {
+        try {
         return serviceRepository.findByCategorie(categorie);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while fetching the service by category", e);
+        }
     }
 
     public Service getServiceByTitre(String titre) {
+        try {
         return serviceRepository.findByTitre(titre);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while fetching the service by title", e);
+        }
     }
 
     public Service getServiceByPrix(Double prix) {
+        try {
         return serviceRepository.findByPrix(prix);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while fetching the service by price", e);
+        }
     }
 
     public Service getServiceByFreelancer(Freelancer freelancer) {
-        return serviceRepository.findByFreelancer(freelancer);
+        try {
+            return serviceRepository.findByFreelancer(freelancer);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while fetching the service by freelancer", e);
+        }
     }
 
     public void modifierPrix(Double prix) {
-        serviceRepository.updateServiceByPrix(prix);
+        try {
+            serviceRepository.updateServiceByPrix(prix);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while updating the service price", e);
+        }
     }
 
     public void modifierDescription(String description) {
-        serviceRepository.updateServiceByDescription(description);
-
+        try {
+            serviceRepository.updateServiceByDescription(description);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while updating the service description", e);
+        }
     }
 
     public void supprimerService(Service service) {
-        serviceRepository.delete(service);
+        try {
+            serviceRepository.delete(service);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while deleting the service", e);
+        }
     }
 
     public void ajouterService(Service service, Categorie categorie) {
+        try {
         serviceRepository.save(service);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while adding the service", e);
+        }
     }
 
 

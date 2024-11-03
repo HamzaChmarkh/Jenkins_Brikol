@@ -14,7 +14,7 @@ public class ServiceController {
             this.serviceLogic = serviceLogic;
         }
 
-        @GetMapping("/id")
+        @GetMapping("/{id}")
         public Service getServiceById(@PathVariable Long id) {
          return    serviceLogic.getServiceById(id);
         }
@@ -60,8 +60,8 @@ public class ServiceController {
         }
 
         @GetMapping("/modfierTous")
-        public void modfierTous(@RequestBody Service service,@RequestBody Categorie categorie,@RequestParam String titre,@RequestParam Double prix,@RequestParam String description) {
-            serviceLogic.modfierTous(service, categorie, titre, prix, description);
+        public void modfierTous(@RequestBody Service service,@RequestBody Categorie categorie) {
+            serviceLogic.modfierTous(service, categorie);
         }
 
         @PostMapping("/createService")
