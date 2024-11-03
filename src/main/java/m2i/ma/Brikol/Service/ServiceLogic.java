@@ -1,5 +1,6 @@
 package m2i.ma.Brikol.Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import m2i.ma.Brikol.Categorie.Categorie;
 import m2i.ma.Brikol.Freelancer.Freelancer;
 import m2i.ma.Brikol.Freelancer.FreelancerRepository;
@@ -36,8 +37,13 @@ public class ServiceLogic {
         serviceRepository.updateServiceByTitre(titre);
     }
 
-    public Service getSreficeById(Long id) {
-        return serviceRepository.findById(id).orElse(null);
+    public Service getServiceById(Long id) {
+        try {
+            return serviceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Sevice not found"));
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new ServcieException("An error occured while fetching the service");
+        }
     }
 
     public Service getServiceByCategorie(Categorie categorie) {

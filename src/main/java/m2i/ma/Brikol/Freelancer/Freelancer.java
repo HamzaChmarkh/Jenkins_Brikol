@@ -4,8 +4,10 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.*;
-import m2i.ma.Brikol.Categorie.Categorie;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import m2i.ma.Brikol.Service.Service;
 import m2i.ma.Brikol.User.Utilisateur;
 
@@ -18,7 +20,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Freelancer extends Utilisateur {
-
 
 
     @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL)

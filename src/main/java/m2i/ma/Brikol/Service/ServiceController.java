@@ -13,53 +13,65 @@ public class ServiceController {
         public ServiceController(ServiceLogic serviceLogic) {
             this.serviceLogic = serviceLogic;
         }
+
         @GetMapping("/id")
-        public Service getServiceById(Long id) {
-         return    serviceLogic.getSreficeById(id);
+        public Service getServiceById(@PathVariable Long id) {
+         return    serviceLogic.getServiceById(id);
         }
+
         @GetMapping("/ByCategorie")
-        public Service getServiceByCategorie(Categorie categorie) {
+        public Service getServiceByCategorie(@RequestBody  Categorie categorie) {
          return    serviceLogic.getServiceByCategorie(categorie);
         }
+
         @GetMapping("/ByTitre")
-        public Service getServiceByTitre(String titre) {
+        public Service getServiceByTitre(@RequestParam String titre) {
          return    serviceLogic.getServiceByTitre(titre);
         }
+
         @GetMapping("/ByPrix")
-        public Service getServiceByPrix(Double prix) {
+        public Service getServiceByPrix(@RequestParam  Double prix) {
          return    serviceLogic.getServiceByPrix(prix);
         }
+
         @GetMapping("/ByFreelancer")
-        public Service getServiceByFreelancer(Freelancer freelancer) {
+        public Service getServiceByFreelancer(@RequestBody Freelancer freelancer) {
          return    serviceLogic.getServiceByFreelancer(freelancer);
         }
+
         @GetMapping("/modifierPrix")
-        public void modifierPrix(Double prix) {
+        public void modifierPrix(@RequestParam Double prix) {
             serviceLogic.modifierPrix(prix);
         }
+
         @GetMapping("/modifierTitre")
-        public void modiferTitre(String titre) {
+        public void modiferTitre(@RequestParam String titre) {
             serviceLogic.modiferTitre(titre);
         }
+
         @GetMapping("/modifierCategory")
-        public void modifierCategory(Service service, Categorie categorie) {
+        public void modifierCategory(@RequestBody Service service,@RequestBody Categorie categorie) {
             serviceLogic.modifierCategory(service, categorie);
         }
+
         @GetMapping("/modifierFreelancer")
-        public void modifierFreelancer(Service service, Freelancer freelancer) {
+        public void modifierFreelancer(@RequestBody Service service,@RequestBody Freelancer freelancer) {
             serviceLogic.modifierFreelancer(service, freelancer);
         }
+
         @GetMapping("/modfierTous")
-        public void modfierTous(Service service, Categorie categorie, String titre, Double prix, String description) {
+        public void modfierTous(@RequestBody Service service,@RequestBody Categorie categorie,@RequestParam String titre,@RequestParam Double prix,@RequestParam String description) {
             serviceLogic.modfierTous(service, categorie, titre, prix, description);
         }
+
         @PostMapping("/createService")
-        public void createService(@RequestBody  Service service, Categorie categorie) {
+        public void createService(@RequestBody  Service service,@RequestBody Categorie categorie) {
              serviceLogic.ajouterService(service, categorie);
             //TODO :change return for status code reponse
         }
+
         @GetMapping("/deleteService")
-        public void deleteService(Service service) {
+        public void deleteService(@RequestBody Service service) {
             serviceLogic.supprimerService(service);
         }
 
