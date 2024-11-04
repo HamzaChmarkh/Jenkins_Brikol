@@ -1,4 +1,29 @@
 package m2i.ma.Brikol.Service;
 
-public class ServiceRepository {
+import m2i.ma.Brikol.Categorie.Categorie;
+import m2i.ma.Brikol.Freelancer.Freelancer;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ServiceRepository extends JpaRepository<Service , Long> {
+
+    void updateServiceByCategorie(Categorie categorie);
+
+    void updateServiceByTitre(String titre);
+
+    void updateServiceByPrix(Double prix);
+
+    void updateServiceByDescription(String description);
+
+    void updateServiceByFreelancer(Freelancer freelancer);
+
+    Service findByCategorie(Categorie categorie);
+
+    Service findByTitre(String titre);
+
+    Service findByFreelancer(Freelancer freelancer);
+
+    Service findByPrix(Double prix);
 }
+
