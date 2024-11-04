@@ -3,6 +3,7 @@ package m2i.ma.Brikol.Service;
 import m2i.ma.Brikol.Categorie.Categorie;
 import m2i.ma.Brikol.Freelancer.Freelancer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,64 +16,62 @@ public class ServiceController {
         }
 
         @GetMapping("/{id}")
-        public Service getServiceById(@PathVariable Long id) {
+        public ServiceDto getServiceById(@PathVariable Long id) {
          return    serviceLogic.getServiceById(id);
         }
 
         @GetMapping("/ByCategorie")
-        public Service getServiceByCategorie(@RequestBody  Categorie categorie) {
-         return    serviceLogic.getServiceByCategorie(categorie);
+        public ServiceDto getServiceByCategorie(@RequestBody  Categorie categorie) {
+         return   serviceLogic.getServiceByCategorie(categorie);
         }
 
         @GetMapping("/ByTitre")
-        public Service getServiceByTitre(@RequestParam String titre) {
-         return    serviceLogic.getServiceByTitre(titre);
+        public ServiceDto getServiceByTitre(@RequestParam String titre) {
+         return   serviceLogic.getServiceByTitre(titre);
         }
 
         @GetMapping("/ByPrix")
-        public Service getServiceByPrix(@RequestParam  Double prix) {
+        public ServiceDto getServiceByPrix(@RequestParam  Double prix) {
          return    serviceLogic.getServiceByPrix(prix);
         }
 
         @GetMapping("/ByFreelancer")
-        public Service getServiceByFreelancer(@RequestBody Freelancer freelancer) {
-         return    serviceLogic.getServiceByFreelancer(freelancer);
+        public ServiceDto getServiceByFreelancer(@RequestBody Freelancer freelancer) {
+         return   serviceLogic.getServiceByFreelancer(freelancer);
         }
 
         @GetMapping("/modifierPrix")
-        public void modifierPrix(@RequestParam Double prix) {
-            serviceLogic.modifierPrix(prix);
+        public ResponseEntity<String> modifierPrix(@RequestParam Service service,@RequestParam Double prix) {
+           return serviceLogic.modifierPrix(service,prix);
         }
 
         @GetMapping("/modifierTitre")
-        public void modiferTitre(@RequestParam String titre) {
-            serviceLogic.modiferTitre(titre);
+        public ResponseEntity<String> modiferTitre(@RequestParam Service service, @RequestParam String titre) {
+
+            return serviceLogic.modiferTitre(service,titre);
         }
 
         @GetMapping("/modifierCategory")
-        public void modifierCategory(@RequestBody Service service,@RequestBody Categorie categorie) {
-            serviceLogic.modifierCategory(service, categorie);
+        public ResponseEntity<String> modifierCategory(@RequestBody Service service,@RequestBody Categorie categorie) {
+            return serviceLogic.modifierCategory(service, categorie);
         }
 
-        @GetMapping("/modifierFreelancer")
-        public void modifierFreelancer(@RequestBody Service service,@RequestBody Freelancer freelancer) {
-            serviceLogic.modifierFreelancer(service, freelancer);
-        }
+    
 
         @GetMapping("/modfierTous")
-        public void modfierTous(@RequestBody Service service,@RequestBody Categorie categorie) {
-            serviceLogic.modfierTous(service, categorie);
+        public ResponseEntity<String> modfierTous(@RequestBody Service service,@RequestBody Categorie categorie) {
+           return  serviceLogic.modfierTous(service, categorie);
         }
 
         @PostMapping("/createService")
-        public void createService(@RequestBody  Service service,@RequestBody Categorie categorie) {
-             serviceLogic.ajouterService(service, categorie);
-            //TODO :change return for status code reponse
+        public ResponseEntity<String> createService(@RequestBody  Service service, @RequestBody Categorie categorie) {
+            return serviceLogic.ajouterService(service, categorie);
+
         }
 
         @GetMapping("/deleteService")
-        public void deleteService(@RequestBody Service service) {
-            serviceLogic.supprimerService(service);
+        public ResponseEntity<String> deleteService(@RequestBody Service service) {
+            return serviceLogic.supprimerService(service);
         }
 
 

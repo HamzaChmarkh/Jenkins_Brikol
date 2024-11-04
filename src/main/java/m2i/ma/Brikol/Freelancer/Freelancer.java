@@ -1,9 +1,6 @@
 package m2i.ma.Brikol.Freelancer;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,18 +28,10 @@ public class Freelancer extends Utilisateur {
         super(nom, email, role, motDePasse);
     }
 
-    public void ajouterService(Service service, Categorie categorie) {
-        servicesProposes.add(service);
-        service.setFreelancer(this); // Set this freelancer for the service
-        service.setCategorie(categorie);
+    public Freelancer(String nom, String email, Role role, String motDePasse, List<Service> servicesProposes) {
+        super(nom, email, role, motDePasse);
+        this.servicesProposes = servicesProposes;
     }
 
-    public void modifierService(Service service) {
-        // Logic to modify the service
-    }
 
-    public void supprimerService(Service service) {
-        servicesProposes.remove(service);
-        service.supprimerService(service);
-    }
 }

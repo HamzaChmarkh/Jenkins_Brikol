@@ -23,13 +23,11 @@ public class Categorie {
     @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL)
     private List<Service> services;
 
-    public void ajouterService(Service service) {
-        services.add(service);
-        service.setCategorie(this); // Set this category for the service
+
+    public Categorie(String type, List<Service> services, Service service) {
+        this.type = type;
+        this.services = services;
+        this.services.add(service);
     }
 
-    public void supprimerService(Service service) {
-        services.remove(service);
-        service.setCategorie(null); // Remove the link to this category
-    }
 }

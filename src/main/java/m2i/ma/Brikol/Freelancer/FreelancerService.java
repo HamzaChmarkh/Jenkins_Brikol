@@ -16,18 +16,5 @@ public class FreelancerService {
         return freelancerRepository.save(freelancer);
     }
 
-    public List<Freelancer> getAllFreelancers() {
-        return freelancerRepository.findAll();
-    }
-    public void deleteFreelancer(Freelancer freelancer) {
-        freelancerRepository.delete(freelancer);
-    }
-
-    public Freelancer getFreelancerById(Long id) {
-        return freelancerRepository.findById(id).orElse(null);
-    }
-    public void updateFreelancer(Freelancer freelancer) {
-        freelancerRepository.save(freelancer);
-    }
 
 }

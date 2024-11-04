@@ -5,6 +5,7 @@ import m2i.ma.Brikol.Categorie.Categorie;
 import m2i.ma.Brikol.Freelancer.Freelancer;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 
 @org.springframework.stereotype.Service
 public class ServiceLogic {
@@ -14,119 +15,130 @@ public class ServiceLogic {
 
     @Autowired
     public ServiceLogic( ServiceRepository serviceRepository) {
+
         this.serviceRepository = serviceRepository;
     }
 
-    public void modfierTous(Service service, Categorie categorie) {
+    public ResponseEntity<String> modfierTous(Service service, Categorie categorie) {
         try {
-        serviceRepository.updateServiceByCategorie(categorie);
-        serviceRepository.updateServiceByTitre(service.getTitre());
-        serviceRepository.updateServiceByPrix(service.getPrix());
-        serviceRepository.updateServiceByDescription(service.getDescription());
-        serviceRepository.updateServiceByFreelancer(service.getFreelancer());
+        serviceRepository.updateServiceCategorie(categorie);
+        serviceRepository.updateServiceTitre(service.getTitre());
+        serviceRepository.updateServicePrix(service.getPrix());
+        serviceRepository.updateServiceDescription(service.getDescription());
+
+            return ResponseEntity.ok("All service fields updated successfully");
 
         } catch (Exception e) {
             throw new ServiceException("An error occurred while updating all service fields", e);
     }
     }
 
-    public void modifierFreelancer(Service service, Freelancer freelancer) {
-        try {
-            serviceRepository.updateServiceByFreelancer(freelancer);
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while updating the service freelancer", e);
-    }
+    public ServiceDto getServiceDto(Service service) {
+        return new ServiceDto(
+                service.getId(),
+                service.getTitre(),
+                service.getDescription(),
+                service.getPrix(),
+                service.getFreelancer(),
+                service.getCategorie()
+        );
     }
 
-    public void modifierCategory(Service service, Categorie categorie) {
+    public ResponseEntity<String> modifierCategory(Service service, Categorie categorie) {
         try {
-            serviceRepository.updateServiceByCategorie(categorie);
+            serviceRepository.updateServiceCategorie(categorie);
+            return ResponseEntity.ok("Service category updated successfully");
+
         } catch (Exception e) {
             throw new ServiceException("An error occurred while updating the service category", e);
-    }
+        }
     }
 
-    public void modiferTitre(String titre) {
+    public ResponseEntity<String> modiferTitre(Service service, String titre) {
         try {
-            serviceRepository.updateServiceByTitre(titre);
+            serviceRepository.updateServiceTitre(titre);
+            return ResponseEntity.ok("Service title updated successfully");
         } catch (Exception e) {
             throw new ServiceException("An error occurred while updating the service title", e);
         }
     }
-    public Service getServiceById(Long id) {
+
+    public ServiceDto getServiceById(Long id) {
         try {
-            return serviceRepository.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException("Service with id: " + id + " not found"));
-        } catch (EntityNotFoundException e) {
-            throw e; // Relancer l'exception pour qu'elle soit capturée par le ControllerAdvice
+            return getServiceDto(serviceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Service not found")));
         } catch (Exception e) {
-            throw new ServiceException("An error occurred while fetching the service", e);
+            throw new ServiceException("An error occurred while fetching the service by id", e);
         }
     }
 
 
-    public Service getServiceByCategorie(Categorie categorie) {
+    public ServiceDto getServiceByCategorie(Categorie categorie) {
         try {
-        return serviceRepository.findByCategorie(categorie);
+            return getServiceDto(serviceRepository.findByCategorie(categorie));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by category", e);
         }
     }
 
-    public Service getServiceByTitre(String titre) {
+    public ServiceDto getServiceByTitre(String titre) {
         try {
-        return serviceRepository.findByTitre(titre);
+            return getServiceDto(serviceRepository.findByTitre(titre));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by title", e);
         }
     }
 
-    public Service getServiceByPrix(Double prix) {
+    public ServiceDto getServiceByPrix(Double prix) {
         try {
-        return serviceRepository.findByPrix(prix);
+            return getServiceDto(serviceRepository.findByPrix(prix));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by price", e);
         }
     }
 
-    public Service getServiceByFreelancer(Freelancer freelancer) {
+    public ServiceDto getServiceByFreelancer(Freelancer freelancer) {
         try {
-            return serviceRepository.findByFreelancer(freelancer);
+            return getServiceDto(serviceRepository.findByFreelancer(freelancer));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by freelancer", e);
         }
     }
 
-    public void modifierPrix(Double prix) {
+    public ResponseEntity<String> modifierPrix(Service service, Double prix) {
         try {
-            serviceRepository.updateServiceByPrix(prix);
+            serviceRepository.updateServicePrix(prix);
+            return ResponseEntity.ok("Service price updated successfully");
         } catch (Exception e) {
             throw new ServiceException("An error occurred while updating the service price", e);
         }
     }
 
-    public void modifierDescription(String description) {
+    public ResponseEntity<String> modifierDescription(Service service, String description) {
         try {
-            serviceRepository.updateServiceByDescription(description);
+            serviceRepository.updateServiceDescription(description);
+            return ResponseEntity.ok("Service description updated successfully");
         } catch (Exception e) {
             throw new ServiceException("An error occurred while updating the service description", e);
         }
     }
 
-    public void supprimerService(Service service) {
+    public ResponseEntity<String> supprimerService(Service service) {
         try {
             serviceRepository.delete(service);
+            return ResponseEntity.ok("Service deleted successfully");
         } catch (Exception e) {
             throw new ServiceException("An error occurred while deleting the service", e);
         }
     }
 
-    public void ajouterService(Service service, Categorie categorie) {
+    public ResponseEntity<String> ajouterService(Service service, Categorie categorie) {
         try {
         serviceRepository.save(service);
+            return ResponseEntity.ok("Service added successfully");
         } catch (Exception e) {
             throw new ServiceException("An error occurred while adding the service", e);
         }
+
     }
 
 

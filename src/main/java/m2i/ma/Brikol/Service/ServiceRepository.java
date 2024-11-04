@@ -8,15 +8,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ServiceRepository extends JpaRepository<Service , Long> {
 
-    void updateServiceByCategorie(Categorie categorie);
+    void updateServiceCategorie(Categorie categorie);
 
-    void updateServiceByTitre(String titre);
+    void updateServiceTitre(String titre);
 
-    void updateServiceByPrix(Double prix);
+    void updateServicePrix(Double prix);
 
-    void updateServiceByDescription(String description);
+    void updateServiceDescription(String description);
 
-    void updateServiceByFreelancer(Freelancer freelancer);
+    
 
     Service findByCategorie(Categorie categorie);
 
@@ -25,5 +25,7 @@ public interface ServiceRepository extends JpaRepository<Service , Long> {
     Service findByFreelancer(Freelancer freelancer);
 
     Service findByPrix(Double prix);
+
+    Service findByDescription(String description);
 }
 
