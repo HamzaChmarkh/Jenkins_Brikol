@@ -53,7 +53,7 @@ public class ServiceController {
 
         @GetMapping("/modifierCategory")
         public ResponseEntity<String> modifierCategory(@RequestBody Service service,@RequestBody Categorie categorie) {
-            return serviceLogic.modifierCategory(service, categorie);
+            return serviceLogic.modifierCategorie(service, categorie);
         }
 
     

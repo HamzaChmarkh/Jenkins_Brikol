@@ -44,7 +44,7 @@ public class ServiceLogic {
         );
     }
 
-    public ResponseEntity<String> modifierCategory(Service service, Categorie categorie) {
+    public ResponseEntity<String> modifierCategorie(Service service, Categorie categorie) {
         try {
             serviceRepository.updateServiceCategorie(categorie);
             return ResponseEntity.ok("Service category updated successfully");

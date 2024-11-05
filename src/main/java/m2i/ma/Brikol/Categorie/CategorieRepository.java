@@ -9,9 +9,12 @@ public interface CategorieRepository extends JpaRepository<Categorie, Long> {
     
     Categorie findByType(String type);
 
-    void updateCategorieByType(String type);
 
-    void updateCategorieServices(Categorie categorie,List<Service> services);
+    void updateCategorieServices(Categorie categorie, List<Service> services);
 
     void updateCategorieType(Categorie categorie, String type);
+
+    void updateCategorie(Categorie categorie);
+
+    void deleteCategoriesByType(String type);
 }

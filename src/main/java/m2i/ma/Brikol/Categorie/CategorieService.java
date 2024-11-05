@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 
 public class CategorieService {
 
 
-    private CategorieRepository categorieRepository;
+    private final CategorieRepository categorieRepository;
 
     @Autowired
     public CategorieService(CategorieRepository categorieRepository) {
@@ -44,31 +46,32 @@ public class CategorieService {
         }
     }
 
-    public Boolean updateCategorieByType(Categorie categorie) {
+    public ResponseEntity<String> updateCategorieType(Categorie categorie) {
         try {
-            categorieRepository.updateCategorieByType(categorie.getType());
-            return Boolean.TRUE;
+            categorieRepository.updateCategorieType(categorie, categorie.getType());
+            return ResponseEntity.ok("Category type updated successfully");
         } catch (Exception e) {
             throw new ServiceException("An error occurred while updating the category type", e);
         }
     }
-    public Boolean updateCategorieServices(Categorie categorie) {
+
+    public ResponseEntity<String> updateCategorieServices(Categorie categorie, List<m2i.ma.Brikol.Service.Service> services) {
         try {
-            categorieRepository.updateCategorieServices(categorie,categorie.getServices());
-            return Boolean.TRUE;
+            categorieRepository.updateCategorieServices(categorie, services);
+            return ResponseEntity.ok("Category services updated successfully");
         } catch (Exception e) {
             throw new ServiceException("An error occurred while updating the category services", e);
         }
     }
 
- public Boolean updateCategorieType(Categorie categorie, String type){
+    public ResponseEntity<String> updateCategorie(Categorie categorie) {
         try {
-            categorieRepository.updateCategorieType(categorie, type);
-            return Boolean.TRUE;
-        }catch(Exception e){
-            throw new ServiceException("An error occurred while updating the category type", e);
+            categorieRepository.updateCategorie(categorie);
+            return ResponseEntity.ok("Category updated successfully");
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while updating the category", e);
         }
- }
+    }
 
     public CategorieDto getCategorieByType(String type) {
         Categorie categorie = categorieRepository.findByType(type);
@@ -79,9 +82,26 @@ public class CategorieService {
         return getCategorieDto(categorie);
     }
 
+    public List<CategorieDto> GetallCategories() {
+        try {
+            return categorieRepository.findAll().stream().map(this::getCategorieDto).toList();
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while fetching all categories", e);
+        }
+
+    }
 
 
+    public ResponseEntity<String> deleteCategorieBytype(String type) {
+        try {
+            categorieRepository.deleteCategoriesByType(type);
+            return ResponseEntity.ok("Category deleted successfully");
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while deleting the category", e);
+        }
+    }
 }
+
 
 
 

@@ -1,7 +1,10 @@
 package m2i.ma.Brikol.Categorie;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import m2i.ma.Brikol.Service.Service;
 
 import java.util.List;
