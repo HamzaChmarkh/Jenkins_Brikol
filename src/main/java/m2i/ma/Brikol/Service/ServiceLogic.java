@@ -77,12 +77,10 @@ public class ServiceLogic {
     }
 
     public ServiceDto getServiceById(Long id) {
-        try {
+
             FreelancerService.checkNull(id, "Id is null");
             return getServiceDto(serviceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Service not found")));
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while fetching the service by id", e);
-        }
+
     }
 
 

@@ -3,10 +3,7 @@ package m2i.ma.Brikol.Categorie;
 import m2i.ma.Brikol.Service.Service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,16 +15,35 @@ public class CategorieController {
         this.categorieService = categorieService;
     }
 
+
+@PostMapping("/addCategorie")
     public ResponseEntity<String> addCategorie(@RequestBody Categorie categorie) {
         return categorieService.createCategorie(categorie);
     }
 
-    @GetMapping("/delete/{type}")
+    @DeleteMapping("/delete/{type}")
     public ResponseEntity<String> deleteCategorieByname(@PathVariable String type) {
         return categorieService.deleteCategorieBytype(type);
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteCategorie(@PathVariable Long id) {
+        return categorieService.deleteCategorieById(id);
+    }
 
-    @GetMapping("/update")
+    @GetMapping("/get/{id}")
+    public CategorieDto getCategorieById(@PathVariable Long id) {
+        return categorieService.getCategorieById(id);
+    }
+
+    @GetMapping("/get/{type}")
+    public CategorieDto getCategorieBytype(@PathVariable String type) {
+        return categorieService.getCategorieByType(type);
+    }
+    @DeleteMapping
+
+
+
+    @GetMapping("/updateAll")
     public ResponseEntity<String> updateCategorie(Categorie categorie) {
         return categorieService.updateCategorie(categorie);
     }
@@ -42,7 +58,7 @@ public class CategorieController {
         return categorieService.updateCategorieServices(categorie, services);
     }
 
-    @GetMapping("/categories")
+    @GetMapping("/allCategories")
     public List<CategorieDto> getAllCategories() {
         return categorieService.GetallCategories();
     }
