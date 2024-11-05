@@ -15,7 +15,7 @@ import java.util.List;
 public class FreelancerDto {
      private String image;
     private Long id;
-    private String nom;
+    private String name;
     private String username;
     private String email;
     private List<Service> servicesProposes;

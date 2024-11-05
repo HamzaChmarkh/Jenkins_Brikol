@@ -67,13 +67,13 @@ public class ServiceController {
            return  serviceLogic.modfierTous(service, categorie);
         }
 
-        @PostMapping("/createService")
+        @PostMapping("/create")
         public ResponseEntity<String> createService(@RequestBody  Service service, @RequestBody Categorie categorie) {
             return serviceLogic.ajouterService(service, categorie);
 
         }
 
-        @PostMapping("/deleteService")
+        @PostMapping("/delete")
         public ResponseEntity<String> deleteService(@RequestBody Service service) {
             return serviceLogic.supprimerService(service);
         }

@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/categorie")
 public class CategorieController {
     private final CategorieService categorieService;
 
@@ -16,7 +17,7 @@ public class CategorieController {
     }
 
 
-@PostMapping("/addCategorie")
+@PostMapping("/add")
     public ResponseEntity<String> addCategorie(@RequestBody Categorie categorie) {
         return categorieService.createCategorie(categorie);
     }
@@ -58,7 +59,7 @@ public class CategorieController {
         return categorieService.updateCategorieServices(categorie, services);
     }
 
-    @GetMapping("/allCategories")
+    @GetMapping("/all")
     public List<CategorieDto> getAllCategories() {
         return categorieService.GetallCategories();
     }
