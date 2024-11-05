@@ -10,5 +10,18 @@ public class ServcieException extends RuntimeException {
         super(message, cause);
     }
 
-}
+    public ServcieException(Object object, String message) {
 
+        this.checkNull(object, message);
+    }
+
+    private void checkNull(Object object, String message) {
+
+        if (object == null) {
+            throw new RuntimeException(message);
+        } else if (message.isEmpty()) {
+            throw new RuntimeException("empty message");
+        }
+
+    }
+}
