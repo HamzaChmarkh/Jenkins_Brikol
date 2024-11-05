@@ -12,11 +12,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FreelancerDto extends UtilisateurResponse {
+public class FreelancerDto {
+     private String image;
+    private Long id;
+    private String nom;
+    private String username;
+    private String email;
     private List<Service> servicesProposes;
 
-    public FreelancerDto(String id, String email, String name, String image, List<Service> servicesProposes) {
-        super(id, email, name, image);
-        this.servicesProposes = servicesProposes;
-    }
 }

@@ -21,6 +21,11 @@ public class ServiceLogic {
 
     public ResponseEntity<String> modfierTous(Service service, Categorie categorie) {
         try {
+            if (service == null ) {
+                throw new ServiceException("Service is null");
+            }else if (categorie == null) {
+                throw new ServiceException("Categorie is null");
+            }
         serviceRepository.updateServiceCategorie(categorie);
         serviceRepository.updateServiceTitre(service.getTitre());
         serviceRepository.updateServicePrix(service.getPrix());
@@ -34,18 +39,31 @@ public class ServiceLogic {
     }
 
     public ServiceDto getServiceDto(Service service) {
-        return new ServiceDto(
-                service.getId(),
-                service.getTitre(),
-                service.getDescription(),
-                service.getPrix(),
-                service.getFreelancer(),
-                service.getCategorie()
-        );
+        try {
+            if (service == null) {
+                throw new ServiceException("Service is null");
+            }
+            return new ServiceDto(
+                    service.getId(),
+                    service.getTitre(),
+                    service.getDescription(),
+                    service.getPrix(),
+                    service.getFreelancer(),
+                    service.getCategorie()
+            );
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while getting service dto", e);
+        }
+
     }
 
     public ResponseEntity<String> modifierCategorie(Service service, Categorie categorie) {
         try {
+            if(service == null ) {
+                throw new ServiceException("Service is null");
+            }else if (categorie == null) {
+                throw new ServiceException("Categorie is null");
+            }
             serviceRepository.updateServiceCategorie(categorie);
             return ResponseEntity.ok("Service category updated successfully");
 
@@ -56,6 +74,11 @@ public class ServiceLogic {
 
     public ResponseEntity<String> modiferTitre(Service service, String titre) {
         try {
+            if(service == null) {
+                throw new ServiceException("Service is null");
+            }else if (titre == null) {
+                throw new ServiceException("Title is null");
+            }
             serviceRepository.updateServiceTitre(titre);
             return ResponseEntity.ok("Service title updated successfully");
         } catch (Exception e) {
@@ -65,6 +88,9 @@ public class ServiceLogic {
 
     public ServiceDto getServiceById(Long id) {
         try {
+            if(id == null) {
+                throw new ServiceException("Id is null");
+            }
             return getServiceDto(serviceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Service not found")));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by id", e);
@@ -74,6 +100,9 @@ public class ServiceLogic {
 
     public ServiceDto getServiceByCategorie(Categorie categorie) {
         try {
+            if(categorie == null) {
+                throw new ServiceException("Categorie is null");
+            }
             return getServiceDto(serviceRepository.findByCategorie(categorie));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by category", e);
@@ -82,6 +111,9 @@ public class ServiceLogic {
 
     public ServiceDto getServiceByTitre(String titre) {
         try {
+            if(titre == null) {
+                throw new ServiceException("Title is null");
+            }
             return getServiceDto(serviceRepository.findByTitre(titre));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by title", e);
@@ -90,6 +122,9 @@ public class ServiceLogic {
 
     public ServiceDto getServiceByPrix(Double prix) {
         try {
+            if(prix == null) {
+                throw new ServiceException("Price is null");
+            }
             return getServiceDto(serviceRepository.findByPrix(prix));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by price", e);
@@ -98,6 +133,9 @@ public class ServiceLogic {
 
     public ServiceDto getServiceByFreelancer(Freelancer freelancer) {
         try {
+            if(freelancer == null) {
+                throw new ServiceException("Freelancer is null");
+            }
             return getServiceDto(serviceRepository.findByFreelancer(freelancer));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by freelancer", e);
@@ -106,6 +144,11 @@ public class ServiceLogic {
 
     public ResponseEntity<String> modifierPrix(Service service, Double prix) {
         try {
+            if (service == null) {
+                throw new ServiceException("Service is null");
+            } else if (prix == null) {
+                throw new ServiceException("Price is null");
+            }
             serviceRepository.updateServicePrix(prix);
             return ResponseEntity.ok("Service price updated successfully");
         } catch (Exception e) {
@@ -115,6 +158,11 @@ public class ServiceLogic {
 
     public ResponseEntity<String> modifierDescription(Service service, String description) {
         try {
+            if(service == null) {
+                throw new ServiceException("Service is null");
+            }else if (description == null) {
+                throw new ServiceException("Description is null");
+            }
             serviceRepository.updateServiceDescription(description);
             return ResponseEntity.ok("Service description updated successfully");
         } catch (Exception e) {
@@ -124,6 +172,9 @@ public class ServiceLogic {
 
     public ResponseEntity<String> supprimerService(Service service) {
         try {
+            if(service == null) {
+                throw new ServiceException("Service is null");
+            }
             serviceRepository.delete(service);
             return ResponseEntity.ok("Service deleted successfully");
         } catch (Exception e) {
@@ -133,6 +184,12 @@ public class ServiceLogic {
 
     public ResponseEntity<String> ajouterService(Service service, Categorie categorie) {
         try {
+            if(service == null) {
+                throw new ServiceException("Service is null");
+            }else if (categorie == null) {
+                throw new ServiceException("Categorie is null");
+            }
+            service.setCategorie(categorie);
         serviceRepository.save(service);
             return ResponseEntity.ok("Service added successfully");
         } catch (Exception e) {

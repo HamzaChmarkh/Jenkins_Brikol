@@ -40,25 +40,29 @@ public class ServiceController {
          return   serviceLogic.getServiceByFreelancer(freelancer);
         }
 
-        @GetMapping("/modifierPrix")
+        @PutMapping("/modifierPrix")
         public ResponseEntity<String> modifierPrix(@RequestParam Service service,@RequestParam Double prix) {
            return serviceLogic.modifierPrix(service,prix);
         }
+        @PutMapping("/modifierDescription")
+        public ResponseEntity<String> modifierDescription(@RequestParam Service service,@RequestParam String description) {
+            return serviceLogic.modifierDescription(service,description);
+        }
 
-        @GetMapping("/modifierTitre")
+        @PutMapping("/modifierTitre")
         public ResponseEntity<String> modiferTitre(@RequestParam Service service, @RequestParam String titre) {
 
             return serviceLogic.modiferTitre(service,titre);
         }
 
-        @GetMapping("/modifierCategory")
+        @PutMapping("/modifierCategory")
         public ResponseEntity<String> modifierCategory(@RequestBody Service service,@RequestBody Categorie categorie) {
             return serviceLogic.modifierCategorie(service, categorie);
         }
 
     
 
-        @GetMapping("/modfierTous")
+        @PutMapping("/modfierTous")
         public ResponseEntity<String> modfierTous(@RequestBody Service service,@RequestBody Categorie categorie) {
            return  serviceLogic.modfierTous(service, categorie);
         }
@@ -69,7 +73,7 @@ public class ServiceController {
 
         }
 
-        @GetMapping("/deleteService")
+        @PostMapping("/deleteService")
         public ResponseEntity<String> deleteService(@RequestBody Service service) {
             return serviceLogic.supprimerService(service);
         }
