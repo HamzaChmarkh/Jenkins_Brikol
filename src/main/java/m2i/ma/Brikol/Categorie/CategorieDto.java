@@ -5,10 +5,10 @@ import m2i.ma.Brikol.Service.Service;
 import java.util.List;
 
 public class CategorieDto {
-     private Long id;
+     private final Long id;
 
-    private String type;
-    private List<Service> services;
+    private final String type;
+    private final  List<Service> services;
 
     public CategorieDto(Long id, String type, List<Service> services) {
         this.id = id;

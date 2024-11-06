@@ -1,19 +1,18 @@
 package m2i.ma.Brikol.Categorie;
 
-import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.service.spi.ServiceException;
+import m2i.ma.Brikol.Exceptions.CategoryNotFoundException;
+import m2i.ma.Brikol.Exceptions.DatabaseException;
+import m2i.ma.Brikol.Exceptions.ValidationException;
+import m2i.ma.Brikol.Exceptions.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import static m2i.ma.Brikol.Freelancer.FreelancerService.checkNull;
-
 @Service
-
 public class CategorieService {
-
 
     private final CategorieRepository categorieRepository;
 
@@ -23,113 +22,89 @@ public class CategorieService {
     }
 
     public CategorieDto getCategorieDto(Categorie categorie) {
-        try {
-            checkNull(categorie, "Category is null");
-            return new CategorieDto(
-                    categorie.getId(),
-                    categorie.getType(),
-                    categorie.getServices()
-            );
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while getting category dto", e);
+        if (categorie == null) {
+            throw new ValidationException("Category is null");
         }
-
+        return new CategorieDto(
+                categorie.getId(),
+                categorie.getType(),
+                categorie.getServices()
+        );
     }
 
-    public ResponseEntity<String> createCategorie(Categorie categorie) {
-      try {
-            checkNull(categorie, "Category is null");
-            categorieRepository.save(categorie);
-            return ResponseEntity.ok("Category created successfully");
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while creating the category", e);
+    public ResponseEntity<ResponseDto> createCategorie(Categorie categorie) {
+        if (categorie == null) {
+            throw new ValidationException("Category is null");
         }
-
+        categorieRepository.save(categorie);
+        return ResponseEntity.ok(new ResponseDto("Category created successfully", HttpStatus.OK.value()));
     }
 
-    public ResponseEntity<String> deleteCategorieById(Long id) {
-        try {
-            checkNull(id, "Category id is null");
-            categorieRepository.deleteById(id);
-            return ResponseEntity.ok("Category deleted successfully");
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while deleting the category", e);
+    public ResponseEntity<ResponseDto> deleteCategorieById(Long id) {
+        if (id == null) {
+            throw new ValidationException("Category id is null");
         }
+
+        if (!categorieRepository.existsById(id)) {
+            throw new CategoryNotFoundException("Category not found");
+        }
+
+        categorieRepository.deleteById(id);
+        return ResponseEntity.ok(new ResponseDto("Category deleted successfully", HttpStatus.OK.value()));
     }
 
-    public ResponseEntity<String> updateCategorieType(Categorie categorie) {
-        try {
-            checkNull(categorie, "Category is null");
-            categorieRepository.updateCategorieType(categorie, categorie.getType());
-            return ResponseEntity.ok("Category type updated successfully");
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while updating the category type", e);
+    public ResponseEntity<ResponseDto> deleteCategorieBytype(String type) {
+        if (type == null) {
+            throw new ValidationException("Category type is null");
         }
+
+        Categorie categorie = categorieRepository.findByType(type);
+        if (categorie == null) {
+            throw new CategoryNotFoundException("Category type not found");
+        }
+
+        categorieRepository.deleteCategoriesByType(type);
+        return ResponseEntity.ok(new ResponseDto("Category deleted successfully", HttpStatus.OK.value()));
     }
 
-    public ResponseEntity<String> updateCategorieServices(Categorie categorie, List<m2i.ma.Brikol.Service.Service> services) {
-        try {
-            checkNull(categorie, "Category is null");
-            checkNull(services, "Services is null");
-            categorieRepository.updateCategorieServices(categorie, services);
-            return ResponseEntity.ok("Category services updated successfully");
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while updating the category services", e);
+    public ResponseEntity<ResponseDto> updateCategorie(Categorie categorie) {
+        if (categorie == null) {
+            throw new ValidationException("Category is null");
         }
-    }
 
-    public ResponseEntity<String> updateCategorie(Categorie categorie) {
-        try {
-            checkNull(categorie, "Category is null");
-            categorieRepository.updateCategorie(categorie);
-            return ResponseEntity.ok("Category updated successfully");
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while updating the category", e);
+        if (!categorieRepository.existsById(categorie.getId())) {
+            throw new CategoryNotFoundException("Category not found");
         }
+
+        categorieRepository.save(categorie);
+        return ResponseEntity.ok(new ResponseDto("Category type updated successfully", HttpStatus.OK.value()));
     }
 
     public CategorieDto getCategorieByType(String type) {
-        try {
-            checkNull(type, "Category type is null");
-               Categorie categorie = categorieRepository.findByType(type);
-        return getCategorieDto(categorie);
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while getting category by type", e);
+        if (type == null) {
+            throw new ValidationException("Category type is null");
         }
 
+        Categorie categorie = categorieRepository.findByType(type);
+        if (categorie == null) {
+            throw new CategoryNotFoundException("Category type not found");
+        }
+
+        return getCategorieDto(categorie);
     }
+
     public CategorieDto getCategorieById(Long id) {
+        if (id == null) {
+            throw new ValidationException("Category id is null");
+        }
 
-            checkNull(id, "Category id is null");
-            Categorie categorie = categorieRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + id));
+        Categorie categorie = categorieRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
+
         return getCategorieDto(categorie);
-
-
     }
 
-    public List<CategorieDto> GetallCategories() {
-        try {
-
-            return categorieRepository.findAll().stream().map(this::getCategorieDto).toList();
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while fetching all categories", e);
-        }
-
-    }
-
-
-    public ResponseEntity<String> deleteCategorieBytype(String type) {
-        try {
-            checkNull(type, "Category type is null");
-            categorieRepository.deleteCategoriesByType(type);
-            return ResponseEntity.ok("Category deleted successfully");
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while deleting the category", e);
-        }
+    public List<CategorieDto> getAllCategories() {
+        return categorieRepository.findAll().stream().map(this::getCategorieDto).toList();
     }
 }
-
-
-
-
-

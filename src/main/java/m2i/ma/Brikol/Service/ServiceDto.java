@@ -4,7 +4,7 @@ import m2i.ma.Brikol.Categorie.Categorie;
 import m2i.ma.Brikol.Freelancer.Freelancer;
 
 public class ServiceDto {
-    private Long id;
+    private  Long id;
     private String titre;
     private String description;
     private Double prix;

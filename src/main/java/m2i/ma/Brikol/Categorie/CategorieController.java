@@ -1,8 +1,8 @@
 package m2i.ma.Brikol.Categorie;
 
-import m2i.ma.Brikol.Service.Service;
+import m2i.ma.Brikol.Exceptions.ResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,23 +11,29 @@ import java.util.List;
 @RequestMapping("/categorie")
 public class CategorieController {
     private final CategorieService categorieService;
-
+  @Autowired
     public CategorieController(CategorieService categorieService) {
         this.categorieService = categorieService;
     }
 
 
-@PostMapping("/add")
-    public ResponseEntity<String> addCategorie(@RequestBody Categorie categorie) {
+    @PostMapping("/add")
+    public ResponseEntity<ResponseDto> addCategorie(@RequestBody Categorie categorie) {
         return categorieService.createCategorie(categorie);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<ResponseDto> updateCategorie(@RequestBody Categorie categorie) {
+        return categorieService.updateCategorie(categorie);
+    }
+
     @DeleteMapping("/delete/{type}")
-    public ResponseEntity<String> deleteCategorieByname(@PathVariable String type) {
+    public ResponseEntity<ResponseDto> deleteCategorieByname(@PathVariable String type) {
         return categorieService.deleteCategorieBytype(type);
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCategorie(@PathVariable Long id) {
+    public ResponseEntity<ResponseDto> deleteCategorie(@PathVariable Long id) {
         return categorieService.deleteCategorieById(id);
     }
 
@@ -40,28 +46,18 @@ public class CategorieController {
     public CategorieDto getCategorieBytype(@PathVariable String type) {
         return categorieService.getCategorieByType(type);
     }
+
     @DeleteMapping
 
 
 
-    @GetMapping("/updateAll")
-    public ResponseEntity<String> updateCategorie(Categorie categorie) {
-        return categorieService.updateCategorie(categorie);
-    }
 
-    @GetMapping("/updateType")
-    public ResponseEntity<String> updateCategorieType(Categorie categorie) {
-        return categorieService.updateCategorieType(categorie);
-    }
 
-    @PostMapping("/updateServices")
-    public ResponseEntity<String> updateCategorieServices(@RequestBody Categorie categorie, @RequestBody List<Service> services) {
-        return categorieService.updateCategorieServices(categorie, services);
-    }
+
 
     @GetMapping("/all")
     public List<CategorieDto> getAllCategories() {
-        return categorieService.GetallCategories();
+        return categorieService.getAllCategories();
     }
 
 
