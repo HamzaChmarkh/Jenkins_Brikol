@@ -20,10 +20,10 @@ public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "type")
     private String type;
 
-    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL,orphanRemoval = false, fetch = FetchType.LAZY, targetEntity = Service.class)
     private List<Service> services;
 
 

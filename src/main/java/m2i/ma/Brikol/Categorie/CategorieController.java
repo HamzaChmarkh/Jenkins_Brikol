@@ -47,13 +47,6 @@ public class CategorieController {
         return categorieService.getCategorieByType(type);
     }
 
-    @DeleteMapping
-
-
-
-
-
-
 
     @GetMapping("/all")
     public List<CategorieDto> getAllCategories() {

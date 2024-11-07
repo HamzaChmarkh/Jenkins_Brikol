@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 
 public interface UtilisateurService {
-    public UserDetailsService userDetailsService();
+    UserDetailsService userDetailsService();
 }
