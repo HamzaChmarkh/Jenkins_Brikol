@@ -26,11 +26,11 @@ public class Service {
     @Column(name = "prix")
     private Double prix;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, targetEntity = Freelancer.class)
     @JoinColumn(name = "freelancer_id")
     private Freelancer freelancer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, targetEntity = Categorie.class)
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
