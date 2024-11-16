@@ -40,20 +40,7 @@ public class ServiceController {
          return   serviceLogic.getServiceByFreelancer(freelancer);
         }
 
-        @PutMapping("/modifierPrix")
-        public ResponseEntity<String> modifierPrix(@RequestParam Service service,@RequestParam Double prix) {
-           return serviceLogic.modifierPrix(service,prix);
-        }
-        @PutMapping("/modifierDescription")
-        public ResponseEntity<String> modifierDescription(@RequestParam Service service,@RequestParam String description) {
-            return serviceLogic.modifierDescription(service,description);
-        }
 
-        @PutMapping("/modifierTitre")
-        public ResponseEntity<String> modiferTitre(@RequestParam Service service, @RequestParam String titre) {
-
-            return serviceLogic.modiferTitre(service,titre);
-        }
 
         @PutMapping("/modifierCategory")
         public ResponseEntity<String> modifierCategory(@RequestBody Service service,@RequestBody Categorie categorie) {

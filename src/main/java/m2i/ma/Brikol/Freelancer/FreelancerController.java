@@ -14,10 +14,7 @@ public class FreelancerController {
         this.freelancerService = freelancerService;
     }
 
-    @DeleteMapping("/delete/{username}")
-    public void deleteFreelancer(@PathVariable String username) {
-        freelancerService.deleteFreelancerByUsername(username);
-    }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteFreelancer(@PathVariable Long id) {
@@ -33,31 +30,6 @@ public class FreelancerController {
     @GetMapping("/get/{username}")
     public ResponseEntity<FreelancerDto> getFreelancer(@PathVariable String username) {
         return freelancerService.getFreelancerByUsername(username);
-    }
-
-    @PostMapping("/Modify/nom")
-    public ResponseEntity<String> modifyNom(@RequestBody Freelancer freelancer) {
-        return freelancerService.modifyNom(freelancer);
-    }
-
-    @PostMapping("/Modify/email")
-    public ResponseEntity<String> modifyEmail(@RequestBody Freelancer freelancer) {
-        return freelancerService.modifyEmail(freelancer);
-    }
-
-    @PostMapping("/Modify/username")
-    public ResponseEntity<String> modifyUsername(@RequestBody Freelancer freelancer) {
-        return freelancerService.modifyUsername(freelancer);
-    }
-
-    @PostMapping("/Modify/image")
-    public ResponseEntity<String> modifyImage(@RequestBody Freelancer freelancer) {
-        return freelancerService.modifyImage(freelancer);
-    }
-
-    @PostMapping("/Modify/servicesProposes")
-    public ResponseEntity<String> modifyServicesProposes(@RequestBody Freelancer freelancer) {
-        return freelancerService.modifyServicesProposes(freelancer);
     }
 
     @PostMapping("/Modify")

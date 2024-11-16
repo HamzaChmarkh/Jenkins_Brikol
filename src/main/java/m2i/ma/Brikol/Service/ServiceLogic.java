@@ -24,10 +24,8 @@ public class ServiceLogic {
         try {
             FreelancerService.checkNull(service, "Service is null");
             FreelancerService.checkNull(categorie, "Category is null");
-        serviceRepository.updateServiceCategorie(categorie);
-        serviceRepository.updateServiceTitre(service.getTitre());
-        serviceRepository.updateServicePrix(service.getPrix());
-        serviceRepository.updateServiceDescription(service.getDescription());
+            service.setCategorie(categorie);
+            serviceRepository.save(service);
 
             return ResponseEntity.ok("All service fields updated successfully");
 
@@ -65,16 +63,7 @@ public class ServiceLogic {
         }
     }
 
-    public ResponseEntity<String> modiferTitre(Service service, String titre) {
-        try {
-            FreelancerService.checkNull(service, "Service is null");
-            FreelancerService.checkNull(titre, "Title is null");
-            serviceRepository.updateServiceTitre(titre);
-            return ResponseEntity.ok("Service title updated successfully");
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while updating the service title", e);
-        }
-    }
+
 
     public ServiceDto getServiceById(Long id) {
 
@@ -120,28 +109,6 @@ public class ServiceLogic {
         }
     }
 
-    public ResponseEntity<String> modifierPrix(Service service, Double prix) {
-        try {
-             FreelancerService.checkNull(service, "Service is null");
-            FreelancerService.checkNull(prix, "Price is null");
-            serviceRepository.updateServicePrix(prix);
-            return ResponseEntity.ok("Service price updated successfully");
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while updating the service price", e);
-        }
-    }
-
-    public ResponseEntity<String> modifierDescription(Service service, String description) {
-        try {
-             FreelancerService.checkNull(service, "Service is null");
-            FreelancerService.checkNull(description, "Description is null");
-
-            serviceRepository.updateServiceDescription(description);
-            return ResponseEntity.ok("Service description updated successfully");
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while updating the service description", e);
-        }
-    }
 
     public ResponseEntity<String> supprimerService(Service service) {
         try {
