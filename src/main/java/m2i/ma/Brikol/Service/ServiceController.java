@@ -1,6 +1,7 @@
 package m2i.ma.Brikol.Service;
 
 import m2i.ma.Brikol.Categorie.Categorie;
+import m2i.ma.Brikol.Exceptions.ResponseDto;
 import m2i.ma.Brikol.Freelancer.Freelancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,52 +17,49 @@ public class ServiceController {
         }
 
         @GetMapping("/{id}")
-        public ServiceDto getServiceById(@PathVariable Long id) {
+        public ResponseEntity<ServiceDto>  getServiceById(@PathVariable Long id) {
          return    serviceLogic.getServiceById(id);
         }
 
         @GetMapping("/ByCategorie")
-        public ServiceDto getServiceByCategorie(@RequestBody  Categorie categorie) {
+        public ResponseEntity<ServiceDto>  getServiceByCategorie(@RequestBody  Categorie categorie) {
          return   serviceLogic.getServiceByCategorie(categorie);
         }
 
         @GetMapping("/ByTitre")
-        public ServiceDto getServiceByTitre(@RequestParam String titre) {
+        public ResponseEntity<ServiceDto>  getServiceByTitre(@RequestParam String titre) {
          return   serviceLogic.getServiceByTitre(titre);
         }
 
         @GetMapping("/ByPrix")
-        public ServiceDto getServiceByPrix(@RequestParam  Double prix) {
+        public ResponseEntity<ServiceDto>  getServiceByPrix(@RequestParam  Double prix) {
          return    serviceLogic.getServiceByPrix(prix);
         }
 
         @GetMapping("/ByFreelancer")
-        public ServiceDto getServiceByFreelancer(@RequestBody Freelancer freelancer) {
+        public ResponseEntity<ServiceDto>  getServiceByFreelancer(@RequestBody Freelancer freelancer) {
          return   serviceLogic.getServiceByFreelancer(freelancer);
         }
 
 
 
-        @PutMapping("/modifierCategory")
-        public ResponseEntity<String> modifierCategory(@RequestBody Service service,@RequestBody Categorie categorie) {
-            return serviceLogic.modifierCategorie(service, categorie);
-        }
+
 
     
 
         @PutMapping("/modfierTous")
-        public ResponseEntity<String> modfierTous(@RequestBody Service service,@RequestBody Categorie categorie) {
+        public ResponseEntity<ResponseDto> modfierTous(@RequestBody Service service, @RequestBody Categorie categorie) {
            return  serviceLogic.modfierTous(service, categorie);
         }
 
         @PostMapping("/create")
-        public ResponseEntity<String> createService(@RequestBody  Service service, @RequestBody Categorie categorie) {
+        public ResponseEntity<ResponseDto> createService(@RequestBody  Service service, @RequestBody Categorie categorie) {
             return serviceLogic.ajouterService(service, categorie);
 
         }
 
         @PostMapping("/delete")
-        public ResponseEntity<String> deleteService(@RequestBody Service service) {
+        public ResponseEntity<ResponseDto> deleteService(@RequestBody Service service) {
             return serviceLogic.supprimerService(service);
         }
 

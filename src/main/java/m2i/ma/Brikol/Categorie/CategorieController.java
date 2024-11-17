@@ -27,10 +27,6 @@ public class CategorieController {
         return categorieService.updateCategorie(categorie);
     }
 
-    @DeleteMapping("/delete/{type}")
-    public ResponseEntity<ResponseDto> deleteCategorieByname(@PathVariable String type) {
-        return categorieService.deleteCategorieBytype(type);
-    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseDto> deleteCategorie(@PathVariable Long id) {
@@ -38,18 +34,18 @@ public class CategorieController {
     }
 
     @GetMapping("/get/{id}")
-    public CategorieDto getCategorieById(@PathVariable Long id) {
+    public ResponseEntity<CategorieDto> getCategorieById(@PathVariable Long id) {
         return categorieService.getCategorieById(id);
     }
 
     @GetMapping("/get/{type}")
-    public CategorieDto getCategorieBytype(@PathVariable String type) {
+    public ResponseEntity<CategorieDto> getCategorieBytype(@PathVariable String type) {
         return categorieService.getCategorieByType(type);
     }
 
 
     @GetMapping("/all")
-    public List<CategorieDto> getAllCategories() {
+    public ResponseEntity<List<CategorieDto>> getAllCategories() {
         return categorieService.getAllCategories();
     }
 

@@ -1,5 +1,6 @@
 package m2i.ma.Brikol.Freelancer;
 
+import m2i.ma.Brikol.Exceptions.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class FreelancerController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteFreelancer(@PathVariable Long id) {
+    public ResponseEntity<ResponseDto> deleteFreelancer(@PathVariable Long id) {
         return freelancerService.deleteFreelancerById(id);
     }
 
@@ -36,4 +37,5 @@ public class FreelancerController {
     public ResponseEntity<String> modifyFreelancer(@RequestBody Freelancer freelancer) {
         return freelancerService.modifyFreelancer(freelancer);
     }
+
 }

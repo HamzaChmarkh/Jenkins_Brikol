@@ -25,16 +25,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDto> handleGeneralException(Exception ex) {
+    public ResponseEntity<ResponseDto> handleGeneralException() {
         return new ResponseEntity<>(new ResponseDto("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
       @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    public ResponseEntity<ResponseDto> handleEntityNotFound(EntityNotFoundException ex) {
+        return new ResponseEntity<>(new ResponseDto(ex.getMessage(), HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND);
+
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+    public ResponseEntity<ResponseDto> handleRuntimeException(RuntimeException ex) {
+        return new ResponseEntity<>(new ResponseDto(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -1,6 +1,7 @@
 package m2i.ma.Brikol.Freelancer;
 
 import jakarta.persistence.EntityNotFoundException;
+import m2i.ma.Brikol.Exceptions.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,11 +52,11 @@ public class FreelancerService {
     }
 
 
-    public ResponseEntity<String> deleteFreelancerById(Long id) {
+    public ResponseEntity<ResponseDto> deleteFreelancerById(Long id) {
         try {
             checkNull(id, "Id is null");
             freelancerRepository.deleteById(id);
-            return ResponseEntity.ok("Freelancer deleted successfully");
+            return ResponseEntity.ok(new ResponseDto("Freelancer deleted successfully", 200));
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while deleting freelancer", e);
         }
