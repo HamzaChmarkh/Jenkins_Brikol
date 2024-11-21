@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="HttpHistory">
+    <option name="httpHistories">
+      <map>
+        <entry key="0">
+          <value>
+            <ReqHistory>
+              <option name="body" value="{&#10;}" />
+              <option name="contentType" value="application/json" />
+              <option name="fileNames">
+                <array>
+                  <option value="$USER_HOME$/Pictures/Screenshots/Screenshot from 2024-10-25 18-32-20.png" />
+                </array>
+              </option>
+              <option name="headers">
+                <map>
+                  <entry key="Content-Type" value="application/json" />
+                </map>
+              </option>
+              <option name="host" value="http://127.0.0.1:8080" />
+              <option name="id" value="0" />
+              <option name="method" value="POST" />
+              <option name="params">
+                <map />
+              </option>
+              <option name="res" value="Error request, response status: 403" />
+              <option name="time" value="2024-11-20 15:45:25" />
+              <option name="uri" value="/api/api/profile/upload" />
+            </ReqHistory>
+          </value>
+        </entry>
+        <entry key="1">
+          <value>
+            <ReqHistory>
+              <option name="body" value="{&#10;}" />
+              <option name="contentType" value="application/json" />
+              <option name="fileNames">
+                <array>
+                  <option value="$USER_HOME$/Pictures/Screenshots/Screenshot from 2024-10-25 18-32-20.png" />
+                </array>
+              </option>
+              <option name="headers">
+                <map>
+                  <entry key="Content-Type" value="application/json" />
+                </map>
+              </option>
+              <option name="host" value="http://127.0.0.1:8080" />
+              <option name="id" value="1" />
+              <option name="method" value="POST" />
+              <option name="params">
+                <map />
+              </option>
+              <option name="res" value="Error request, response status: 403" />
+              <option name="time" value="2024-11-20 15:45:40" />
+              <option name="uri" value="/api/api/profile/upload" />
+            </ReqHistory>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

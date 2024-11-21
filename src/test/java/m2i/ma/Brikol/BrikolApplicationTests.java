@@ -8,6 +8,7 @@ class BrikolApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

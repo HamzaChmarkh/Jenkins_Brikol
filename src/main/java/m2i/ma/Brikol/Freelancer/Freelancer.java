@@ -9,8 +9,10 @@ import lombok.Setter;
 import m2i.ma.Brikol.Service.Service;
 import m2i.ma.Brikol.User.Role;
 import m2i.ma.Brikol.User.Utilisateur;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -32,6 +34,20 @@ public class Freelancer extends Utilisateur {
     public Freelancer(String nom, String email, Role role, String motDePasse, List<Service> servicesProposes) {
         super(nom, email, role, motDePasse);
         this.servicesProposes = servicesProposes;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (o != null && HibernateProxy.class.isAssignableFrom(o.getClass())) {
+            return o.equals(this);
+        } else if (o == null || getClass() != o.getClass()) {
+            return false;
+        } else {
+            Freelancer freelancer = (Freelancer) o;
+            return Objects.equals(getId(), freelancer.getId());
+        }
     }
 
 

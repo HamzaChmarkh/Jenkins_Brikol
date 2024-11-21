@@ -14,7 +14,8 @@ import org.springframework.http.ResponseEntity;
 @Transactional
 public class ServiceLogic {
 
-
+    private static final String SERVICE_NULL = "Service is null";
+    private static final String CATEGORY_NULL = "Category is null";
     private final ServiceRepository serviceRepository;
 
     @Autowired
@@ -25,8 +26,8 @@ public class ServiceLogic {
 
     public ResponseEntity<ResponseDto> modfierTous(Service service, Categorie categorie) {
         try {
-            FreelancerService.checkNull(service, "Service is null");
-            FreelancerService.checkNull(categorie, "Category is null");
+            FreelancerService.checkNull(service, SERVICE_NULL);
+            FreelancerService.checkNull(categorie, CATEGORY_NULL);
             service.setCategorie(categorie);
             serviceRepository.save(service);
             return ResponseEntity.ok(new ResponseDto("Service updated successfully", 200));
@@ -37,7 +38,7 @@ public class ServiceLogic {
 
     public ServiceDto getServiceDto(Service service) {
         try {
-            FreelancerService.checkNull(service, "Service is null");
+            FreelancerService.checkNull(service, SERVICE_NULL);
             return new ServiceDto(
                     service.getId(),
                     service.getTitre(),
@@ -69,7 +70,7 @@ public class ServiceLogic {
 
     public ResponseEntity<ServiceDto>  getServiceByCategorie(Categorie categorie) {
         try {
-            FreelancerService.checkNull(categorie, "Category is null");
+            FreelancerService.checkNull(categorie, CATEGORY_NULL);
             return ResponseEntity.ok(getServiceDto(serviceRepository.findByCategorie(categorie)));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by category", e);
@@ -112,7 +113,7 @@ public class ServiceLogic {
 
     public ResponseEntity<ResponseDto> supprimerService(Service service) {
         try {
-            FreelancerService.checkNull(service, "Service is null");
+            FreelancerService.checkNull(service, SERVICE_NULL);
             serviceRepository.delete(service);
             return ResponseEntity.ok(new ResponseDto("Service deleted successfully", 200));
         } catch (Exception e) {
@@ -123,8 +124,8 @@ public class ServiceLogic {
 
     public ResponseEntity<ResponseDto> ajouterService(Service service, Categorie categorie) {
         try {
-            FreelancerService.checkNull(service, "Service is null");
-            FreelancerService.checkNull(categorie, "Category is null");
+            FreelancerService.checkNull(service, SERVICE_NULL);
+            FreelancerService.checkNull(categorie, CATEGORY_NULL);
             service.setCategorie(categorie);
             serviceRepository.save(service);
             return ResponseEntity.ok(new ResponseDto("Service created successfully", 200));

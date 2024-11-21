@@ -17,6 +17,9 @@ public class CategorieService {
 
     private final CategorieRepository categorieRepository;
 
+    private static final String CATEGORY_NULL = "Category is null";
+
+
     @Autowired
     public CategorieService(CategorieRepository categorieRepository) {
         this.categorieRepository = categorieRepository;
@@ -24,7 +27,7 @@ public class CategorieService {
 
     public CategorieDto getCategorieDto(Categorie categorie) {
            if (categorie == null) {
-            throw new ValidationException("Category is null");
+               throw new ValidationException(CATEGORY_NULL);
         }
         return new CategorieDto(
                 categorie.getId(),
@@ -36,7 +39,7 @@ public class CategorieService {
 
     public ResponseEntity<ResponseDto> createCategorie(Categorie categorie) {
         if (categorie == null) {
-            throw new ValidationException("Category is null");
+            throw new ValidationException(CATEGORY_NULL);
         }
         categorieRepository.save(categorie);
         return ResponseEntity.ok(new ResponseDto("Category created successfully", HttpStatus.OK.value()));
@@ -48,7 +51,7 @@ public class CategorieService {
         }
 
         if (!categorieRepository.existsById(id)) {
-            throw new CategoryNotFoundException("Category not found");
+            throw new CategoryNotFoundException(CATEGORY_NULL);
         }
 
         categorieRepository.deleteById(id);
@@ -59,11 +62,11 @@ public class CategorieService {
 
     public ResponseEntity<ResponseDto> updateCategorie(Categorie categorie) {
         if (categorie == null) {
-            throw new ValidationException("Category is null");
+            throw new ValidationException(CATEGORY_NULL);
         }
 
         if (!categorieRepository.existsById(categorie.getId())) {
-            throw new CategoryNotFoundException("Category not found");
+            throw new CategoryNotFoundException(CATEGORY_NULL);
         }
 
         categorieRepository.save(categorie);
@@ -77,7 +80,7 @@ public class CategorieService {
 
         Categorie categorie = categorieRepository.findByType(type);
         if (categorie == null) {
-            throw new CategoryNotFoundException("Category not found");
+            throw new CategoryNotFoundException(CATEGORY_NULL);
         }
         return ResponseEntity.ok(getCategorieDto(categorie));
     }
@@ -87,7 +90,7 @@ public class CategorieService {
         throw new ValidationException("Category id is null");
     }
 
-    Categorie categorie = categorieRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+     Categorie categorie = categorieRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NULL));
     return ResponseEntity.ok(getCategorieDto(categorie));
 }
 

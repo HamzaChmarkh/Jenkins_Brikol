@@ -6,12 +6,11 @@ import m2i.ma.Brikol.Service.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-@Service
+@org.springframework.stereotype.Service
 public class HomePageService {
 
     private final ServiceRepository serviceRepository;

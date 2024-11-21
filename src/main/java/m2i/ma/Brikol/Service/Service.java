@@ -25,6 +25,8 @@ public class Service {
     private String description;
     @Column(name = "prix")
     private Double prix;
+    @Column(name= "pathImage")
+    String pathImage;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, targetEntity = Freelancer.class)
     @JoinColumn(name = "freelancer_id")

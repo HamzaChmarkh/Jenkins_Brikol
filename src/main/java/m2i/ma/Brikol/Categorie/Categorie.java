@@ -23,7 +23,7 @@ public class Categorie {
     @Column(name = "type")
     private String type;
 
-    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL,orphanRemoval = false, fetch = FetchType.LAZY, targetEntity = Service.class)
+    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Service.class)
     private List<Service> services;
 
 
