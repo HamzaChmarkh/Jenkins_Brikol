@@ -33,6 +33,7 @@ public class JwtServiceImpl implements JwtService{
         Long id = utilisateur.getId();
         return Jwts.builder().setSubject(userDetails.getUsername())
                 .claim("id",id)
+                .claim("role",role)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 100))
                 .signWith(getSiginKey(), SignatureAlgorithm.HS256)

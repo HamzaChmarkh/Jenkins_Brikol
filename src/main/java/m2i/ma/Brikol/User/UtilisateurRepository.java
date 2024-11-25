@@ -14,4 +14,7 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
     @Modifying
     @Query("UPDATE Utilisateur u SET u.emailVerifier = TRUE WHERE u.email = ?1")
     int enableUtilisateur(String email);
+
+
+
 }
