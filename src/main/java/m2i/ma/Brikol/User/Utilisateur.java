@@ -3,6 +3,7 @@ package m2i.ma.Brikol.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "role")
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,9 +26,10 @@ public class Utilisateur implements UserDetails {
 
     private String nom;
     private String username;
+
+    @Column(unique = true)
     private String email;
 
-    @Column(insertable=false, updatable=false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -39,32 +41,15 @@ public class Utilisateur implements UserDetails {
 
     private String image;
 
+    @Column(nullable = false)
+    private boolean newUser;
+
     public Utilisateur(String nom, String email, Role role, String motDePasse) {
         this.nom = nom;
         this.email = email;
         this.role = role;
         this.motDePasse = motDePasse;
     }
-
-    public void sInscrire() {
-        // Logic for signing up a user
-    }
-
-    public void seConnecter() {
-        // Logic for user login
-    }
-    public void reinitialiserMotDePasse(Utilisateur user) {
-        // Logic to reset a user's password
-    }
-    public void modifierProfil(String nom, String username, String email) {
-       //logic to modify profile info
-    }
-
-    public void verifierEmail() {
-        // Logic for verifying email
-
-    }
-
 
 
     @Override

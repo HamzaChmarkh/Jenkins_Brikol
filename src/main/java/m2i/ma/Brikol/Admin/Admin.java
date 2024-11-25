@@ -6,7 +6,7 @@ import m2i.ma.Brikol.Service.Service;
 import m2i.ma.Brikol.User.Utilisateur;
 
 @Entity
-@Table(name = "admin")
+@DiscriminatorValue("Admin")
 @Getter
 @Setter
 @NoArgsConstructor

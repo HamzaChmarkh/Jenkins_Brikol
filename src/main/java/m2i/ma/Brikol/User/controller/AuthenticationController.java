@@ -15,13 +15,18 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SignInRequest signinRequest ){
+    public ResponseEntity<SignInResponse> signin(@RequestBody SignInRequest signinRequest ){
         return authenticationService.signIn(signinRequest);
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest ){
         return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
+    }
+
+    @PostMapping("/check_email")
+    public ResponseEntity<?> checkEmail(@RequestBody EmailRequest emailRequest){
+        return authenticationService.checkEmail(emailRequest);
     }
 
     @PostMapping("/registration")

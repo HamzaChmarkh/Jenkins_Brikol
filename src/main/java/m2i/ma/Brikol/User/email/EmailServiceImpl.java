@@ -1,4 +1,4 @@
-package m2i.ma.Brikol.User.confirmation;
+package m2i.ma.Brikol.User.email;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

@@ -35,6 +35,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**").hasAnyAuthority(Role.Admin.name())
                         .requestMatchers("/freelancer/**").hasAnyAuthority(Role.Freelancer.name())
                         .requestMatchers("/client/**").hasAnyAuthority(Role.Client.name())
+                        .requestMatchers("/api/user/first_login").hasAnyAuthority(Role.Utilisateur.name())
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
