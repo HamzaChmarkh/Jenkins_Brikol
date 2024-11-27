@@ -1,6 +1,7 @@
 package m2i.ma.Brikol.Client;
 
 
+import m2i.ma.Brikol.Freelancer.Freelancer;
 import m2i.ma.Brikol.Service.ServiceDto;
 import m2i.ma.Brikol.Service.ServiceLogic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,15 @@ public class ClientController {
     @GetMapping("/services")
     public ResponseEntity<List<ServiceDto>> getAllServices() {
         return serviceLogic.findAllService();
+    }
+
+    @PutMapping("/clients/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client updatedClient) {
+        Client client = clientService.updateClient(id, updatedClient);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(client);
     }
 
     // Additional endpoints as necessary
