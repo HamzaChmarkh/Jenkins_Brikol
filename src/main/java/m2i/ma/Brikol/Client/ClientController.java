@@ -1,6 +1,8 @@
 package m2i.ma.Brikol.Client;
 
 
+import m2i.ma.Brikol.Service.ServiceDto;
+import m2i.ma.Brikol.Service.ServiceLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +15,12 @@ import java.util.List;
 public class ClientController {
 
     private final ClientService clientService;
+    private final ServiceLogic serviceLogic;
 
     @Autowired
-    public ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService, ServiceLogic serviceLogic) {
         this.clientService = clientService;
+        this.serviceLogic = serviceLogic;
     }
 
     @PostMapping
@@ -40,6 +44,11 @@ public class ClientController {
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/services")
+    public ResponseEntity<List<ServiceDto>> getAllServices() {
+        return serviceLogic.findAllService();
     }
 
     // Additional endpoints as necessary

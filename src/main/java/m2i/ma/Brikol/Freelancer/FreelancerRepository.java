@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
 
 
-    Freelancer findByUsername(String username);}
+    Freelancer findByUsername(String username);
+
+
+
+}
