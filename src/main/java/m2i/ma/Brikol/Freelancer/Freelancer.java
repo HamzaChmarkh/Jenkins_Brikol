@@ -24,12 +24,19 @@ import java.util.Objects;
 @PrimaryKeyJoinColumn(name = "id")
 public class Freelancer extends Utilisateur {
 
+    private String nickName;
+    private String publicEmail;
+    private String description;
+    private String phoneNumber;
+    private String region;
+    private String city;
+    private String zip;
+    private String address;
+
+
     @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.LAZY, targetEntity = Service.class)
     private List<Service> servicesProposes;
 
-    public Freelancer(String nom, String email, Role role, String motDePasse) {
-        super(nom, email, role, motDePasse);
-    }
 
     public Freelancer(String nom, String email, Role role, String motDePasse, List<Service> servicesProposes) {
         super(nom, email, role, motDePasse);

@@ -7,11 +7,13 @@ import org.springframework.http.ResponseEntity;
 
 public interface AuthenticationService {
 
-    ResponseEntity<JwtAuthenticationResponse> signIn(SignInRequest signinRequest);
+    ResponseEntity<SignInResponse> signIn(SignInRequest signinRequest);
 
     JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
 
+    ResponseEntity<?> checkEmail(EmailRequest emailRequest);
     ResponseEntity<String> signUp(SignUpRequest signUpRequest) throws MessagingException;
 
     ResponseEntity<String> confirmToken(String token);
+
 }

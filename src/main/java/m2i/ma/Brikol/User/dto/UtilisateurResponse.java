@@ -8,4 +8,5 @@ public class UtilisateurResponse {
     private String email;
     private String name;
     private String image;
+    private boolean newUser;
 }

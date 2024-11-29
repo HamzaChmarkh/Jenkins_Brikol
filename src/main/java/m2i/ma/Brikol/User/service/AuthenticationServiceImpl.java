@@ -4,16 +4,13 @@ import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import m2i.ma.Brikol.Client.Client;
-import m2i.ma.Brikol.Client.ClientRepository;
 import m2i.ma.Brikol.Freelancer.Freelancer;
-import m2i.ma.Brikol.Freelancer.FreelancerRepository;
 import m2i.ma.Brikol.User.Role;
 import m2i.ma.Brikol.User.Utilisateur;
 import m2i.ma.Brikol.User.UtilisateurRepository;
 import m2i.ma.Brikol.User.confirmation.ConfirmationToken;
-import m2i.ma.Brikol.User.confirmation.ConfirmationTokenRepository;
 import m2i.ma.Brikol.User.confirmation.ConfirmationTokenService;
-import m2i.ma.Brikol.User.confirmation.EmailService;
+import m2i.ma.Brikol.User.email.EmailService;
 import m2i.ma.Brikol.User.dto.*;
 import m2i.ma.Brikol.User.mapper.UtilisateurMapper;
 import m2i.ma.Brikol.config.jwt.JwtService;
@@ -24,7 +21,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.rmi.server.UID;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Optional;
@@ -42,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Transactional
     @Override
-    public ResponseEntity<JwtAuthenticationResponse> signIn(SignInRequest signInRequest) {
+    public ResponseEntity<SignInResponse> signIn(SignInRequest signInRequest) {
 
         Optional<Utilisateur> utilisateur = utilisateurRepository.findByEmail(signInRequest.getEmail());
         if(!utilisateur.isPresent()){
@@ -61,11 +57,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var jwt = jwtService.generateToken(user);
 
         var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
-        System.out.println("Generated JWT: " + jwt);
+
         JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
         jwtAuthenticationResponse.setAccess_token(jwt);
         jwtAuthenticationResponse.setRefresh_token(refreshToken);
-        return new ResponseEntity<>(jwtAuthenticationResponse, HttpStatus.OK);
+        SignInResponse signInResponse = UtilisateurMapper.toSignInResponse(user, jwtAuthenticationResponse);
+        return new ResponseEntity<>(signInResponse, HttpStatus.OK);
     }
 
     @Override
@@ -83,6 +80,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return null;
     }
 
+    public ResponseEntity<?> checkEmail(EmailRequest emailRequest) {
+        Optional<Utilisateur> utilisateur = utilisateurRepository.findByEmail(emailRequest.getEmail());
+        if (utilisateur.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @Transactional
     @Override
     public ResponseEntity<String> signUp(SignUpRequest signUpRequest) throws MessagingException {
@@ -96,19 +101,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         Utilisateur savedUtilisateur;
-        if(signUpRequest.getAccountType().equals(Role.Freelancer.toString())){
+        if(Role.valueOf(signUpRequest.getAccountType()).equals(Role.Freelancer)){
             Freelancer freelancer = new Freelancer();
             freelancer.setNom(signUpRequest.getName());
             freelancer.setEmail(signUpRequest.getEmail());
-            freelancer.setRole(Role.valueOf(signUpRequest.getAccountType()));
             freelancer.setMotDePasse(new BCryptPasswordEncoder(12).encode(signUpRequest.getPassword()));
+            freelancer.setRole(Role.Freelancer);
+            freelancer.setNewUser(true);
             savedUtilisateur = utilisateurRepository.save(freelancer);
         }else{
             Client client = new Client();
             client.setNom(signUpRequest.getName());
             client.setEmail(signUpRequest.getEmail());
-            client.setRole(Role.valueOf(signUpRequest.getAccountType()));
             client.setMotDePasse(new BCryptPasswordEncoder(12).encode(signUpRequest.getPassword()));
+            client.setRole(Role.Client);
+            client.setNewUser(true);
             savedUtilisateur = utilisateurRepository.save(client);
         }
 
@@ -146,4 +153,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return new ResponseEntity<>("Email confirmed", HttpStatus.OK);
     }
+
+
+
+
 }
