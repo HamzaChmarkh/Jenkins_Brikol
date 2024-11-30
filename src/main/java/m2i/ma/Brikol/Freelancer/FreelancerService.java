@@ -40,7 +40,17 @@ public class FreelancerService {
                             freelancer.getNom(),
                             freelancer.getUsername(),
                             freelancer.getEmail(),
-                            freelancer.getServicesProposes()
+                            freelancer.getServicesProposes(),
+                            freelancer.getNickName(),
+                            freelancer.getPublicEmail(),
+                            freelancer.getDescription(),
+                            freelancer.getPhoneNumber(),
+                            freelancer.getRegion(),
+                            freelancer.getCity(),
+                            freelancer.getZip(),
+                            freelancer.getAddress()
+
+
                     ),
                     HttpStatus.OK
             );
@@ -81,11 +91,12 @@ public class FreelancerService {
         }
     }
 
-    public ResponseEntity<String> modifyFreelancer(Freelancer freelancer) {
+    public ResponseEntity<ResponseDto> modifyFreelancer(Freelancer freelancer) {
         try {
             checkNull(freelancer, "Freelancer is null");
             freelancerRepository.save(freelancer);
-            return ResponseEntity.ok("Freelancer updated successfully");
+            return ResponseEntity.ok(new ResponseDto("Freelancer updated successfully", 200));
+
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while updating freelancer", e);
         }

@@ -24,17 +24,32 @@ import java.util.Objects;
 @PrimaryKeyJoinColumn(name = "id")
 public class Freelancer extends Utilisateur {
 
+    @Column(name = "nick_name")
     private String nickName;
+
+    @Column(name = "public_email")
     private String publicEmail;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column(name = "region")
     private String region;
+
+    @Column(name = "city")
     private String city;
+
+    @Column(name = "zip")
     private String zip;
+
+    @Column(name = "address")
     private String address;
 
 
-    @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.LAZY, targetEntity = Service.class)
+    @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Service.class)
     private List<Service> servicesProposes;
 
 

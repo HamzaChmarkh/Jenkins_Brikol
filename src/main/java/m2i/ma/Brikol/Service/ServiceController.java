@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/service")
 public class ServiceController {
@@ -22,39 +24,33 @@ public class ServiceController {
         }
 
         @GetMapping("/ByCategorie")
-        public ResponseEntity<ServiceDto>  getServiceByCategorie(@RequestBody  Categorie categorie) {
+        public ResponseEntity<List<ServiceDto>> getServiceByCategorie(@RequestBody Categorie categorie) {
          return   serviceLogic.getServiceByCategorie(categorie);
         }
 
         @GetMapping("/ByTitre")
-        public ResponseEntity<ServiceDto>  getServiceByTitre(@RequestParam String titre) {
+        public ResponseEntity<List<ServiceDto>> getServiceByTitre(@RequestParam String titre) {
          return   serviceLogic.getServiceByTitre(titre);
         }
 
         @GetMapping("/ByPrix")
-        public ResponseEntity<ServiceDto>  getServiceByPrix(@RequestParam  Double prix) {
+        public ResponseEntity<List<ServiceDto>> getServiceByPrix(@RequestParam Double prix) {
          return    serviceLogic.getServiceByPrix(prix);
         }
 
         @GetMapping("/ByFreelancer")
-        public ResponseEntity<ServiceDto>  getServiceByFreelancer(@RequestBody Freelancer freelancer) {
+        public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(@RequestBody Freelancer freelancer) {
          return   serviceLogic.getServiceByFreelancer(freelancer);
         }
 
-
-
-
-
-    
-
-        @PutMapping("/modfierTous")
+    @PostMapping("/update")
         public ResponseEntity<ResponseDto> modfierTous(@RequestBody Service service, @RequestBody Categorie categorie) {
            return  serviceLogic.modfierTous(service, categorie);
         }
 
         @PostMapping("/create")
-        public ResponseEntity<ResponseDto> createService(@RequestBody  Service service, @RequestBody Categorie categorie) {
-            return serviceLogic.ajouterService(service, categorie);
+        public ResponseEntity<ResponseDto> createService(@RequestBody Service service, @RequestBody Categorie categorie, @RequestBody Freelancer freelancer) {
+            return serviceLogic.ajouterService(service, categorie, freelancer);
 
         }
 
@@ -62,6 +58,13 @@ public class ServiceController {
         public ResponseEntity<ResponseDto> deleteService(@RequestBody Service service) {
             return serviceLogic.supprimerService(service);
         }
+
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<ResponseDto> deleteService(@PathVariable Long id) {
+        return serviceLogic.supprimerService(id);
+    }
+
+
 
 
 
