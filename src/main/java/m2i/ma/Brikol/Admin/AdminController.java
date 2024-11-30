@@ -8,6 +8,7 @@ import m2i.ma.Brikol.Service.ServiceDto;
 import m2i.ma.Brikol.Service.ServiceLogic;
 import m2i.ma.Brikol.Service.ServiceRepository;
 import m2i.ma.Brikol.User.Utilisateur;
+import m2i.ma.Brikol.User.dto.UtilisateurResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import m2i.ma.Brikol.Service.Service;
 import org.springframework.web.bind.annotation.*;
@@ -30,26 +31,55 @@ public class AdminController {
 
     // Endpoint pour ajouter un administrateur
     @PostMapping("/add")
-    public ResponseEntity<String> ajouterAdmin(@RequestBody Admin admin) {
-        return adminService.ajouterAdmin(admin);
+    public ResponseEntity<ResponseDto> ajouterAdmin(@RequestBody Admin admin) {
+        try {
+            // Call the service method, which returns ResponseDto
+            ResponseDto response = adminService.ajouterAdmin(admin);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            // Handle unexpected exceptions
+            ResponseDto errorResponse = new ResponseDto("Failed to add admin: " + e.getMessage(), 500);
+            return ResponseEntity.status(500).body(errorResponse);
+        }
     }
+
+
+
 
     // Endpoint pour supprimer un utilisateur
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> supprimerUtilisateur(@PathVariable Long id) {
-        return adminService.supprimerUtilisateur(id);
+    public ResponseEntity<ResponseDto> supprimerUtilisateur(@PathVariable Long id) {
+        try {
+            adminService.supprimerUtilisateur(id);
+            ResponseDto response = new ResponseDto("User deleted successfully", 200);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ResponseDto response = new ResponseDto("Failed to delete user: " + e.getMessage(), 500);
+            return ResponseEntity.status(500).body(response);
+        }
     }
 
+
+
     // Endpoint pour consulter tous les utilisateurs
-    @GetMapping("/users")
+    @GetMapping("/allusers")
     public ResponseEntity<?> consulterTousLesUtilisateurs() {
         return adminService.consulterTousLesUtilisateurs();
     }
 
-        @GetMapping("/users")
-    public ResponseEntity<List<Utilisateur>> getAllUsers() {
-        return ResponseEntity.ok(adminService.getAllUsers());
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        try {
+            List<UtilisateurResponse> utilisateurs = adminService.getAllUsers();
+            return ResponseEntity.ok(utilisateurs);
+        } catch (Exception e) {
+            ResponseDto errorResponse = new ResponseDto("Failed to fetch users: " + e.getMessage(), 500);
+            return ResponseEntity.status(500).body(errorResponse);
+        }
     }
+
+
+
 
     @GetMapping("/statistiques")
     public ResponseEntity<StatistiquesDto> consulterStatistiques() {

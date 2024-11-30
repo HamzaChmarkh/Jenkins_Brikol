@@ -2,10 +2,12 @@ package m2i.ma.Brikol.Admin;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import m2i.ma.Brikol.Exceptions.ResponseDto;
 import m2i.ma.Brikol.Service.ServiceRepository;
 import m2i.ma.Brikol.User.Role;
 import m2i.ma.Brikol.User.Utilisateur;
 import m2i.ma.Brikol.User.UtilisateurRepository;
+import m2i.ma.Brikol.User.dto.UtilisateurResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,38 +30,42 @@ import java.util.List;
     @Autowired
     private ServiceRepository serviceRepository;
 
-    public List<Utilisateur> getAllUsers() {
-        return userRepository.findAll();
+    public List<UtilisateurResponse> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(user -> {
+                    UtilisateurResponse response = new UtilisateurResponse();
+                    response.setId(user.getId().toString());
+                    response.setEmail(user.getEmail());
+                    response.setName(user.getUsername());
+                    response.setImage(user.getImage());
+                    response.setNewUser(user.isNewUser());
+                    return response;
+                })
+                .toList();
     }
-    //
-//    public List<Service> getAllServices() {
-//        return serviceRepository.findAll();
-//    }
 
 
-        private final UtilisateurRepository utilisateurRepository;
+
+
+    private final UtilisateurRepository utilisateurRepository;
 
         // Ajouter un nouvel administrateur
-        public ResponseEntity<String> ajouterAdmin(Admin admin) {
+        public ResponseDto ajouterAdmin(Admin admin) {
             if (utilisateurRepository.findByEmail(admin.getEmail()).isPresent()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Email déjà utilisé.");
+                return new ResponseDto("Email déjà utilisé.", HttpStatus.BAD_REQUEST.value());
             }
             adminRepository.save(admin);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Administrateur ajouté avec succès.");
+            return new ResponseDto("Administrateur ajouté avec succès.", HttpStatus.CREATED.value());
         }
 
-        // Supprimer un utilisateur (Client ou Freelancer) par un admin
-        public ResponseEntity<String> supprimerUtilisateur(Long utilisateurId) {
-            if (!utilisateurRepository.existsById(utilisateurId)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Utilisateur introuvable.");
-            }
-            utilisateurRepository.deleteById(utilisateurId);
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("Utilisateur supprimé avec succès.");
+    // Delete a user
+    public ResponseDto supprimerUtilisateur(Long utilisateurId) {
+        if (!utilisateurRepository.existsById(utilisateurId)) {
+            return new ResponseDto("Utilisateur introuvable.", HttpStatus.NOT_FOUND.value());
         }
+        utilisateurRepository.deleteById(utilisateurId);
+        return new ResponseDto("Utilisateur supprimé avec succès.", HttpStatus.OK.value());
+    }
 
         // Consulter tous les utilisateurs
         public ResponseEntity<?> consulterTousLesUtilisateurs() {
