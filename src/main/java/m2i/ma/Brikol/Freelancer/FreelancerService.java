@@ -91,11 +91,12 @@ public class FreelancerService {
         }
     }
 
-    public ResponseEntity<String> modifyFreelancer(Freelancer freelancer) {
+    public ResponseEntity<ResponseDto> modifyFreelancer(Freelancer freelancer) {
         try {
             checkNull(freelancer, "Freelancer is null");
             freelancerRepository.save(freelancer);
-            return ResponseEntity.ok("Freelancer updated successfully");
+            return ResponseEntity.ok(new ResponseDto("Freelancer updated successfully", 200));
+
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while updating freelancer", e);
         }

@@ -55,27 +55,6 @@ public class ServiceLogic {
 
     }
 
-    public List<ServiceDto> getServiceDto(List<Service> services) {
-        try {
-            for (Service service : services) {
-                new ServiceDto(
-                        service.getId(),
-                        service.getTitre(),
-                        service.getDescription(),
-                        service.getPrix(),
-                        service.getFreelancer(),
-                        service.getCategorie()
-                );
-
-            }
-            return services.stream().map(this::getServiceDto).toList();
-
-
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while getting service dto", e);
-        }
-
-    }
 
 
 
@@ -94,7 +73,7 @@ public class ServiceLogic {
     public ResponseEntity<List<ServiceDto>> getServiceByCategorie(Categorie categorie) {
         try {
             FreelancerService.checkNull(categorie, CATEGORY_NULL);
-            return ResponseEntity.ok(getServiceDto(serviceRepository.findByCategorie(categorie)));
+            return ResponseEntity.ok(serviceRepository.findByCategorie(categorie).stream().map(this::getServiceDto).toList());
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by category", e);
         }
@@ -105,7 +84,7 @@ public class ServiceLogic {
     public ResponseEntity<List<ServiceDto>> getServiceByTitre(String titre) {
         try {
             FreelancerService.checkNull(titre, "Titre is null");
-            return ResponseEntity.ok(getServiceDto(serviceRepository.findByTitre(titre)));
+            return ResponseEntity.ok(serviceRepository.findByTitre(titre).stream().map(this::getServiceDto).toList());
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by title", e);
         }
@@ -115,7 +94,7 @@ public class ServiceLogic {
     public ResponseEntity<List<ServiceDto>> getServiceByPrix(Double prix) {
         try {
             FreelancerService.checkNull(prix, "Prix is null");
-            return ResponseEntity.ok(getServiceDto(serviceRepository.findByPrix(prix)));
+            return ResponseEntity.ok(serviceRepository.findByPrix(prix).stream().map(this::getServiceDto).toList());
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by price", e);
 
@@ -125,7 +104,7 @@ public class ServiceLogic {
     public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(Freelancer freelancer) {
         try {
             FreelancerService.checkNull(freelancer, "Freelancer is null");
-            return ResponseEntity.ok(getServiceDto(serviceRepository.findByFreelancer(freelancer)));
+            return ResponseEntity.ok(serviceRepository.findByFreelancer(freelancer).stream().map(this::getServiceDto).toList());
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by freelancer", e);
         }
