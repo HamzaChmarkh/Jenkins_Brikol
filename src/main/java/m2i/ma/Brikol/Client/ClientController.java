@@ -53,8 +53,8 @@ public class ClientController {
     }
 
     @PutMapping("/clients/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client updatedClient) {
-        Client client = clientService.updateClient(id, updatedClient);
+    public ResponseEntity<ClientDto> updateClient(@PathVariable Long id, @RequestBody ClientDto updatedClient) {
+        ClientDto client = clientService.updateClient(id, updatedClient);
         if (client == null) {
             return ResponseEntity.notFound().build();
         }

@@ -34,17 +34,38 @@ public class ClientService {
     }
 
     // Additional methods as needed
-    public Client updateClient(Long id, Client updatedClient) {
-        return clientRepository.findById(id)
-                .map(existingClient -> {
+//    public ClientDto updateClient(Long id, ClientDto updatedClient) {
+//        return clientRepository.findById(id)
+//                .map(existingClient -> {
+//
+//                    existingClient.setNom(updatedClient.getName()); // Exemple de champ
+//                    existingClient.setEmail(updatedClient.getEmail()); // Exemple de champ
+//                    existingClient.setMotDePasse(updatedClient.getMotDePasse());
+//                    // Ajouter les autres champs à mettre à jour
+//                    return clientRepository.save(existingClient);
+//                })
+//                .orElse(null); // Ou lever une exception si le client n'existe pas
+//    }
+    public ClientDto updateClient(Long id, ClientDto updatedClient) {
+        return clientRepository.findById(id).map(existingClient -> {
+            // Mise à jour des champs avec les nouvelles données
+            existingClient.setNom(updatedClient.getName());
+            existingClient.setEmail(updatedClient.getEmail());
+            existingClient.setMotDePasse(updatedClient.getMotDePasse());
+            existingClient.setImage(updatedClient.getImage());
 
-                    existingClient.setNom(updatedClient.getNom()); // Exemple de champ
-                    existingClient.setEmail(updatedClient.getEmail()); // Exemple de champ
-                    existingClient.setMotDePasse(updatedClient.getMotDePasse());
-                    // Ajouter les autres champs à mettre à jour
-                    return clientRepository.save(existingClient);
-                })
-                .orElse(null); // Ou lever une exception si le client n'existe pas
+            // Sauvegarde et conversion en DTO
+            Client updatedEntity = clientRepository.save(existingClient);
+            return new ClientDto(
+                    updatedEntity.getImage(),
+                    updatedEntity.getId(),
+                    updatedEntity.getNom(),
+                    updatedEntity.getEmail(),
+                    updatedEntity.getMotDePasse()
+            );
+        }).orElse(null); // Retourne null si le client n'existe pas
     }
+
+
 
 }
