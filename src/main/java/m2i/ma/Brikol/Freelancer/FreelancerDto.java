@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import m2i.ma.Brikol.Service.Service;
-import m2i.ma.Brikol.User.dto.UtilisateurResponse;
 
 import java.util.List;
 @Getter
@@ -19,5 +18,14 @@ public class FreelancerDto {
     private String username;
     private String email;
     private List<Service> servicesProposes;
+    private String nickName;
+    private String publicEmail;
+    private String description;
+    private String phoneNumber;
+    private String region;
+    private String city;
+    private String zip;
+    private String address;
+
 
 }

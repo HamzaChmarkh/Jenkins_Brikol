@@ -1,18 +1,17 @@
 package m2i.ma.Brikol.Categorie;
 
-import m2i.ma.Brikol.Service.Service;
-
-import java.util.List;
-
 public class CategorieDto {
      private final Long id;
-    private final String type;
-    private final List<Service> services;
+    private final String titreAr;
+    private final String titreFr;
+    private final String titreEn;
 
-    public CategorieDto(Long id, String type, List<Service> services) {
+    public CategorieDto(String titreAr, String titreFr, String titreEn, Long id) {
+        this.titreAr = titreAr;
+        this.titreFr = titreFr;
+        this.titreEn = titreEn;
         this.id = id;
-        this.type = type;
-        this.services = services;
     }
+
 
 }

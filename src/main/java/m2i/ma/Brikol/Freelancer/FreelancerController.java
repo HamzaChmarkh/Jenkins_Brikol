@@ -34,7 +34,7 @@ public class FreelancerController {
     }
 
     @PostMapping("/Modify")
-    public ResponseEntity<String> modifyFreelancer(@RequestBody Freelancer freelancer) {
+    public ResponseEntity<ResponseDto> modifyFreelancer(@RequestBody Freelancer freelancer) {
         return freelancerService.modifyFreelancer(freelancer);
     }
 

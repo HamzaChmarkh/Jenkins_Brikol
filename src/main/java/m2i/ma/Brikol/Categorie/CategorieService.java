@@ -30,9 +30,10 @@ public class CategorieService {
                throw new ValidationException(CATEGORY_NULL);
         }
         return new CategorieDto(
-                categorie.getId(),
-                categorie.getType(),
-                categorie.getServices()
+                categorie.getTitreAr(),
+                categorie.getTitreFr(),
+                categorie.getTitreEn(),
+                categorie.getId()
         );
 
     }
@@ -73,17 +74,7 @@ public class CategorieService {
         return ResponseEntity.ok(new ResponseDto("Category type updated successfully", HttpStatus.OK.value()));
     }
 
-    public ResponseEntity<CategorieDto> getCategorieByType(String type) {
-        if (type == null) {
-            throw new ValidationException("Category type is null");
-        }
 
-        Categorie categorie = categorieRepository.findByType(type);
-        if (categorie == null) {
-            throw new CategoryNotFoundException(CATEGORY_NULL);
-        }
-        return ResponseEntity.ok(getCategorieDto(categorie));
-    }
 
  public ResponseEntity<CategorieDto> getCategorieById(Long id) {
     if (id == null) {

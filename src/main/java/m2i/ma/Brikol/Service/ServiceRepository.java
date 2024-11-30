@@ -5,16 +5,18 @@ import m2i.ma.Brikol.Freelancer.Freelancer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ServiceRepository extends JpaRepository<Service , Long> {
 
-    Service findByCategorie(Categorie categorie);
+    List<Service> findByCategorie(Categorie categorie);
 
-    Service findByTitre(String titre);
+    List<Service> findByTitre(String titre);
 
-    Service findByFreelancer(Freelancer freelancer);
+    List<Service> findByFreelancer(Freelancer freelancer);
 
-    Service findByPrix(Double prix);
+    List<Service> findByPrix(Double prix);
 
 }
 
