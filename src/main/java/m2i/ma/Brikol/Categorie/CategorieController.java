@@ -13,7 +13,7 @@ public class CategorieController {
     private final CategorieService categorieService;
   @Autowired
     public CategorieController(CategorieService categorieService) {
-        this.categorieService = categorieService;
+      this.categorieService = categorieService;
     }
 
 
@@ -36,11 +36,6 @@ public class CategorieController {
     @GetMapping("/get/{id}")
     public ResponseEntity<CategorieDto> getCategorieById(@PathVariable Long id) {
         return categorieService.getCategorieById(id);
-    }
-
-    @GetMapping("/get/{type}")
-    public ResponseEntity<CategorieDto> getCategorieBytype(@PathVariable String type) {
-        return categorieService.getCategorieByType(type);
     }
 
 

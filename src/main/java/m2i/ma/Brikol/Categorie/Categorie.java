@@ -20,18 +20,17 @@ public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "type")
-    private String type;
+    @Column(name = "titre_ar")
+    private String titreAr;
+    @Column(name = "titre_fr")
+    private String titreFr;
+    @Column(name = "titre_en")
+    private String titreEn;
+
+
 
     @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Service.class)
     private List<Service> services;
-
-
-    public Categorie(String type, List<Service> services, Service service) {
-        this.type = type;
-        this.services = services;
-        this.services.add(service);
-    }
 
 
 }

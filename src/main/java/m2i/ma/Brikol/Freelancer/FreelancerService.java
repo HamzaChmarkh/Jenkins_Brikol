@@ -40,7 +40,17 @@ public class FreelancerService {
                             freelancer.getNom(),
                             freelancer.getUsername(),
                             freelancer.getEmail(),
-                            freelancer.getServicesProposes()
+                            freelancer.getServicesProposes(),
+                            freelancer.getNickName(),
+                            freelancer.getPublicEmail(),
+                            freelancer.getDescription(),
+                            freelancer.getPhoneNumber(),
+                            freelancer.getRegion(),
+                            freelancer.getCity(),
+                            freelancer.getZip(),
+                            freelancer.getAddress()
+
+
                     ),
                     HttpStatus.OK
             );
