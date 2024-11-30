@@ -72,17 +72,23 @@ import java.util.List;
             return ResponseEntity.ok(utilisateurRepository.findAll());
         }
 
-        public void suspendUser(Long userId) {
-        Utilisateur user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setSuspended(true); //  'suspended' field exists in Utilisateur
+    public ResponseDto suspendUser(Long userId) {
+        Utilisateur user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setSuspended(true); // Assuming the 'suspended' field exists in Utilisateur
         userRepository.save(user);
+        return new ResponseDto("User suspended successfully", HttpStatus.OK.value());
     }
 
-    public void validateService(Long serviceId) {
-        m2i.ma.Brikol.Service.Service service = serviceRepository.findById(serviceId).orElseThrow(() -> new RuntimeException("Service not found"));
+
+    public ResponseDto validateService(Long serviceId) {
+        m2i.ma.Brikol.Service.Service service = serviceRepository.findById(serviceId)
+                .orElseThrow(() -> new RuntimeException("Service not found"));
         service.setValidated(true); // Assuming a 'validated' field exists in Service
         serviceRepository.save(service);
+        return new ResponseDto("Service validated successfully", HttpStatus.OK.value());
     }
+
     public StatistiquesDto consulterStatistiques() {
         long totalUsers = utilisateurRepository.count();
         long totalFreelancers = utilisateurRepository.countByRole(Role.Freelancer);
