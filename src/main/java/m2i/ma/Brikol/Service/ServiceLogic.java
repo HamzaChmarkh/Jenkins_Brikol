@@ -147,6 +147,12 @@ public class ServiceLogic {
 
 
     }
-
+    public ResponseEntity<List<ServiceDto>> getAllServices() {
+        try {
+            return ResponseEntity.ok(serviceRepository.findAll().stream().map(this::getServiceDto).toList());
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while fetching all services", e);
+        }
+    }
 
 }
