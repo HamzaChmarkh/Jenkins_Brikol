@@ -141,7 +141,7 @@ public class ServiceLogic {
     }
 
 
-    public ResponseEntity<List<ServiceDto>> findAllService() {
+    public ResponseEntity<List<ServiceDto>> getAllServices() {
         try {
             List<Service> services = serviceRepository.findAll();
             return ResponseEntity.ok(services.stream()

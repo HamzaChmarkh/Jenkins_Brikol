@@ -49,7 +49,7 @@ public class ClientController {
 
     @GetMapping("/services")
     public ResponseEntity<List<ServiceDto>> getAllServices() {
-        return serviceLogic.findAllService();
+        return serviceLogic.getAllServices();
     }
 
     @PutMapping("/clients/{id}")
