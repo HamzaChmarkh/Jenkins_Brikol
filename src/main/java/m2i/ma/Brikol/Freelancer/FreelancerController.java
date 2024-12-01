@@ -1,5 +1,6 @@
 package m2i.ma.Brikol.Freelancer;
 
+import jakarta.validation.Valid;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,9 @@ public class FreelancerController {
     }
 
     @PostMapping("/Modify")
-    public ResponseEntity<ResponseDto> modifyFreelancer(@RequestBody Freelancer freelancer) {
+    public ResponseEntity<ResponseDto> modifyFreelancer(@Valid @RequestBody FreelancerDto freelancerDto) {
+        Freelancer freelancer = freelancerService.toFreelancer(freelancerDto);
+
         return freelancerService.modifyFreelancer(freelancer);
     }
 

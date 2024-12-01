@@ -102,4 +102,23 @@ public class FreelancerService {
         }
     }
 
+    public Freelancer toFreelancer(FreelancerDto freelancerDto) {
+        return new Freelancer(
+                freelancerDto.getImage(),
+                freelancerDto.getId(),
+                freelancerDto.getName(),
+                freelancerDto.getUsername(),
+                freelancerDto.getEmail(),
+                freelancerDto.getServicesProposes(),
+                freelancerDto.getNickName(),
+                freelancerDto.getPublicEmail(),
+                freelancerDto.getDescription(),
+                freelancerDto.getPhoneNumber(),
+                freelancerDto.getRegion(),
+                freelancerDto.getCity(),
+                freelancerDto.getZip(),
+                freelancerDto.getAddress()
+        );
+    }
+
 }

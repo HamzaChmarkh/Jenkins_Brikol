@@ -3,8 +3,11 @@ package m2i.ma.Brikol.Exceptions;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -14,6 +17,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ResponseDto(ex.getMessage(), HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        String messageErreur = Objects.requireNonNull(ex.getBindingResult().getFieldError()).getDefaultMessage();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageErreur);
+    }
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<ResponseDto> handleDatabaseException(DatabaseException ex) {
         return new ResponseEntity<>(new ResponseDto(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR);
