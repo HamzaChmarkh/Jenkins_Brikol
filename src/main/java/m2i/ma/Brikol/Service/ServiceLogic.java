@@ -3,7 +3,6 @@ package m2i.ma.Brikol.Service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import m2i.ma.Brikol.Categorie.Categorie;
-import m2i.ma.Brikol.Client.Client;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
 import m2i.ma.Brikol.Freelancer.Freelancer;
 import m2i.ma.Brikol.Freelancer.FreelancerService;
@@ -12,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-
-import java.util.stream.Collectors;
-
 
 @org.springframework.stereotype.Service
 @Transactional
@@ -151,25 +147,12 @@ public class ServiceLogic {
 
 
     }
-//    public ResponseEntity<List<ServiceDto>> getAllServices() {
-//        try {
-//            return ResponseEntity.ok(serviceRepository.findAll().stream().map(this::getServiceDto).toList());
-//        } catch (Exception e) {
-//            throw new ServiceException("An error occurred while fetching all services", e);
-//        }
-//    }
-
     public ResponseEntity<List<ServiceDto>> getAllServices() {
         try {
-            List<Service> services = serviceRepository.findAll();
-            return ResponseEntity.ok(services.stream()
-                    .map(this::getServiceDto)
-                    .collect(Collectors.toList()));
+            return ResponseEntity.ok(serviceRepository.findAll().stream().map(this::getServiceDto).toList());
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching all services", e);
         }
     }
-
-
 
 }
