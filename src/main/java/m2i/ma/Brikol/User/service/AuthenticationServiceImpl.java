@@ -38,14 +38,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Transactional
     @Override
-    public ResponseEntity<SignInResponse> signIn(SignInRequest signInRequest) {
+    public ResponseEntity<?> signIn(SignInRequest signInRequest) {
 
         Optional<Utilisateur> utilisateur = utilisateurRepository.findByEmail(signInRequest.getEmail());
         if(!utilisateur.isPresent()){
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("User Not Found",HttpStatus.NOT_FOUND);
         }
         if(!utilisateur.get().isEmailVerifier()){
-            return new ResponseEntity<>( HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Email not verified",HttpStatus.FORBIDDEN);
+        }
+
+        if (utilisateur.get().isSuspended()) {
+            return new ResponseEntity<>("User is suspended", HttpStatus.FORBIDDEN);
         }
 
         authenticationManager.authenticate(
