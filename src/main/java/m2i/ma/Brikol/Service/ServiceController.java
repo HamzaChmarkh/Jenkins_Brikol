@@ -1,8 +1,13 @@
 package m2i.ma.Brikol.Service;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import m2i.ma.Brikol.Categorie.Categorie;
+import m2i.ma.Brikol.Categorie.CategorieDto;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
 import m2i.ma.Brikol.Freelancer.Freelancer;
+import m2i.ma.Brikol.Freelancer.FreelancerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,43 +29,48 @@ public class ServiceController {
         }
 
         @GetMapping("/ByCategorie")
-        public ResponseEntity<List<ServiceDto>> getServiceByCategorie(@RequestBody Categorie categorie) {
+        public ResponseEntity<List<ServiceDto>> getServiceByCategorie(@Valid @RequestBody CategorieDto categorieDto) {
+            Categorie categorie = categorieDto.toCategorie();
          return   serviceLogic.getServiceByCategorie(categorie);
         }
 
-        @GetMapping("/ByTitre")
+        @GetMapping("/ByTitre/{titre}")
         public ResponseEntity<List<ServiceDto>> getServiceByTitre(@RequestParam String titre) {
          return   serviceLogic.getServiceByTitre(titre);
         }
 
-        @GetMapping("/ByPrix")
-        public ResponseEntity<List<ServiceDto>> getServiceByPrix(@RequestParam Double prix) {
+        @GetMapping("/ByPrix/{prix}")
+        public ResponseEntity<List<ServiceDto>> getServiceByPrix(@PositiveOrZero @Valid @RequestParam Double prix) {
          return    serviceLogic.getServiceByPrix(prix);
         }
 
         @GetMapping("/ByFreelancer")
-        public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(@RequestBody Freelancer freelancer) {
+        public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(@Valid @RequestBody FreelancerDto freelancerDto) {
+            Freelancer freelancer = freelancerDto.toFreelancer();
          return   serviceLogic.getServiceByFreelancer(freelancer);
         }
 
     @PostMapping("/update")
-        public ResponseEntity<ResponseDto> modfierTous(@RequestBody Service service, @RequestBody Categorie categorie) {
-           return  serviceLogic.modfierTous(service, categorie);
+        public ResponseEntity<ResponseDto> modfierTous(@Valid @RequestBody ServiceDto serviceDto) {
+            Service service = serviceDto.toService();
+           return  serviceLogic.modfierTous(service);
         }
 
         @PostMapping("/create")
-        public ResponseEntity<ResponseDto> createService(@RequestBody Service service, @RequestBody Categorie categorie, @RequestBody Freelancer freelancer) {
-            return serviceLogic.ajouterService(service, categorie, freelancer);
+        public ResponseEntity<ResponseDto> createService(@Valid @RequestBody ServiceDto serviceDto) {
+            Service service = serviceDto.toService();
+            return serviceLogic.ajouterService(service);
 
         }
 
         @PostMapping("/delete")
-        public ResponseEntity<ResponseDto> deleteService(@RequestBody Service service) {
+        public ResponseEntity<ResponseDto> deleteService(@Valid @RequestBody ServiceDto serviceDto) {
+            Service service = serviceDto.toService();
             return serviceLogic.supprimerService(service);
         }
 
     @PostMapping("/delete/{id}")
-    public ResponseEntity<ResponseDto> deleteService(@PathVariable Long id) {
+    public ResponseEntity<ResponseDto> deleteService(@NotNull @Valid @PathVariable Long id) {
         return serviceLogic.supprimerService(id);
     }
 

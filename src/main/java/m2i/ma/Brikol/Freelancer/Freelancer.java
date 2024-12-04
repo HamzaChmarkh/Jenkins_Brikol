@@ -58,6 +58,9 @@ public class Freelancer extends Utilisateur {
         this.servicesProposes = servicesProposes;
     }
 
+    public Freelancer(String image, Long id, String name, String username, String email, List<Service> servicesProposes, String nickName, String publicEmail, String description, String phoneNumber, String region, String city, String zip, String address) {
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) {

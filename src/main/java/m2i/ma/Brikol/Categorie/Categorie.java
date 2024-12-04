@@ -33,4 +33,10 @@ public class Categorie {
     private List<Service> services;
 
 
+    public Categorie(Long id, String titreAr, String titreFr, String titreEn) {
+        this.id = id;
+        this.titreAr = titreAr;
+        this.titreFr = titreFr;
+        this.titreEn = titreEn;
+    }
 }

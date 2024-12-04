@@ -44,6 +44,9 @@ public class Utilisateur implements UserDetails {
     @Column(nullable = false)
     private boolean newUser;
 
+    @Column(nullable = false)
+    private boolean isSuspended;
+
     public Utilisateur(String nom, String email, Role role, String motDePasse) {
         this.nom = nom;
         this.email = email;
