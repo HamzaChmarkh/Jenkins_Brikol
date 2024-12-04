@@ -1,8 +1,13 @@
 package m2i.ma.Brikol.Admin;
 
 import jakarta.transaction.Transactional;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import m2i.ma.Brikol.Categorie.CategorieRepository;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
+import m2i.ma.Brikol.Freelancer.Freelancer;
+import m2i.ma.Brikol.Freelancer.FreelancerDto;
+import m2i.ma.Brikol.Freelancer.FreelancerRepository;
 import m2i.ma.Brikol.Service.ServiceRepository;
 import m2i.ma.Brikol.User.Role;
 import m2i.ma.Brikol.User.Utilisateur;
@@ -29,6 +34,13 @@ import java.util.List;
 
     @Autowired
     private ServiceRepository serviceRepository;
+
+    @Autowired
+    private final CategorieRepository categorieRepository;
+
+
+    @Autowired
+    private FreelancerRepository freelancerRepository;
 
     public List<UtilisateurResponse> getAllUsers() {
         return userRepository.findAll().stream()
@@ -72,22 +84,27 @@ import java.util.List;
             return ResponseEntity.ok(utilisateurRepository.findAll());
         }
 
-    public ResponseDto suspendUser(Long userId) {
-        Utilisateur user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        user.setSuspended(true); // Assuming the 'suspended' field exists in Utilisateur
-        userRepository.save(user);
-        return new ResponseDto("User suspended successfully", HttpStatus.OK.value());
+    // calculate number of categories
+    public long calculerNombreDeCategories() {
+        return categorieRepository.count();
     }
 
-
-    public ResponseDto validateService(Long serviceId) {
-        m2i.ma.Brikol.Service.Service service = serviceRepository.findById(serviceId)
-                .orElseThrow(() -> new RuntimeException("Service not found"));
-        service.setValidated(true); // Assuming a 'validated' field exists in Service
-        serviceRepository.save(service);
-        return new ResponseDto("Service validated successfully", HttpStatus.OK.value());
-    }
+//    public ResponseDto suspendUser(Long userId) {
+//        Utilisateur user = userRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//        user.setSuspended(true); // Assuming the 'suspended' field exists in Utilisateur
+//        userRepository.save(user);
+//        return new ResponseDto("User suspended successfully", HttpStatus.OK.value());
+//    }
+//
+//
+//    public ResponseDto validateService(Long serviceId) {
+//        m2i.ma.Brikol.Service.Service service = serviceRepository.findById(serviceId)
+//                .orElseThrow(() -> new RuntimeException("Service not found"));
+//        service.setValidated(true); // Assuming a 'validated' field exists in Service
+//        serviceRepository.save(service);
+//        return new ResponseDto("Service validated successfully", HttpStatus.OK.value());
+//    }
 
     public StatistiquesDto consulterStatistiques() {
         long totalUsers = utilisateurRepository.count();
@@ -97,15 +114,23 @@ import java.util.List;
 
         return new StatistiquesDto(totalUsers, totalFreelancers, totalClients, totalServices);
     }
+
+    // get freelancers details like services and personal info
+    public FreelancerDto getFreelancerDetails(Long freelancerId) {
+        Freelancer freelancer = freelancerRepository.findById(freelancerId)
+                .filter(user -> user instanceof Freelancer)
+                .orElseThrow(() -> new RuntimeException("Freelancer not found"));
+
+        FreelancerDto dto = new FreelancerDto();
+        dto.setId(freelancer.getId());
+        dto.setName(freelancer.getNom());
+        dto.setUsername(freelancer.getUsername());
+        dto.setEmail(freelancer.getEmail());
+        dto.setNickName(freelancer.getNickName());
+        dto.setServicesProposes(freelancer.getServicesProposes());
+        dto.setRegion(freelancer.getRegion());
+        dto.setCity(freelancer.getCity());
+        return dto;
     }
 
-
-//
-
-//
-//    public void resetUserPassword(Long userId) {
-//        Utilisateur user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-//        user.setPassword("new_default_password"); // Set a default or temporary password
-//        userRepository.save(user);
-//    }
-
+    }

@@ -2,8 +2,13 @@ package m2i.ma.Brikol.Admin;
 
 import m2i.ma.Brikol.Admin.Admin;
 import m2i.ma.Brikol.Admin.AdminService;
+import m2i.ma.Brikol.Categorie.CategorieDto;
+import m2i.ma.Brikol.Categorie.CategorieService;
+import m2i.ma.Brikol.Client.Client;
+import m2i.ma.Brikol.Client.ClientService;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
 import m2i.ma.Brikol.Freelancer.Freelancer;
+import m2i.ma.Brikol.Freelancer.FreelancerDto;
 import m2i.ma.Brikol.Service.ServiceDto;
 import m2i.ma.Brikol.Service.ServiceLogic;
 import m2i.ma.Brikol.Service.ServiceRepository;
@@ -28,6 +33,12 @@ public class AdminController {
 
     @Autowired
     private ServiceLogic serviceLogic;
+
+    @Autowired
+    private CategorieService categorieService;
+
+    @Autowired
+    private ClientService clientService;
 
 
     // Endpoint pour ajouter un administrateur
@@ -77,6 +88,51 @@ public class AdminController {
             ResponseDto errorResponse = new ResponseDto("Failed to fetch users: " + e.getMessage(), 500);
             return ResponseEntity.status(500).body(errorResponse);
         }
+    }
+
+    //Api to get all categories
+    @GetMapping("/getAllCategories")
+    public ResponseEntity<List<CategorieDto>> getAllCategories() {
+        return categorieService.getAllCategories();
+    }
+
+    //Api to get all clients
+    @GetMapping("/clients")
+    public List<Client> getAllClients() {
+        return clientService.findAllClients();
+    }
+
+    //Api to get  categorie count
+    @GetMapping("/getCategoryNumber")
+    public ResponseEntity<ResponseDto> calculerNombreDeCategories() {
+        try {
+            long categoryCount = adminService.calculerNombreDeCategories(); // Call the service method
+            ResponseDto response = new ResponseDto("Number of categories fetched successfully: " + categoryCount, 200);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ResponseDto errorResponse = new ResponseDto("Failed to fetch category count: " + e.getMessage(), 500);
+            return ResponseEntity.status(500).body(errorResponse);
+        }
+    }
+
+
+
+    // get freelancers details like services and personal info when clicked
+    @GetMapping("/freelancer/{id}")
+    public ResponseEntity<FreelancerDto> getFreelancerWithDetails(@PathVariable Long id){
+
+        try{
+            FreelancerDto freelancerdto = adminService.getFreelancerDetails(id);
+
+            return ResponseEntity.ok(freelancerdto);
+        }
+        catch(Exception e){
+            ResponseDto rpd = new ResponseDto("Error in fetching freelancer details " + e.getMessage(),500);
+            return ResponseEntity.status(500).body(null);
+
+        }
+
+
     }
 
 
@@ -135,29 +191,29 @@ public class AdminController {
 
 
     // Suspend user endpoint
-    @PostMapping("/suspend-user/{userId}")
-    public ResponseEntity<ResponseDto> suspendUser(@PathVariable Long userId) {
-        try {
-            ResponseDto response = adminService.suspendUser(userId);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            ResponseDto errorResponse = new ResponseDto("Failed to suspend user: " + e.getMessage(), 500);
-            return ResponseEntity.status(500).body(errorResponse);
-        }
-    }
-
-
-    // Validate service endpoint
-    @PostMapping("/validate-service/{serviceId}")
-    public ResponseEntity<ResponseDto> validateService(@PathVariable Long serviceId) {
-        try {
-            ResponseDto response = adminService.validateService(serviceId);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            ResponseDto errorResponse = new ResponseDto("Failed to validate service: " + e.getMessage(), 500);
-            return ResponseEntity.status(500).body(errorResponse);
-        }
-    }
+//    @PostMapping("/suspend-user/{userId}")
+//    public ResponseEntity<ResponseDto> suspendUser(@PathVariable Long userId) {
+//        try {
+//            ResponseDto response = adminService.suspendUser(userId);
+//            return ResponseEntity.ok(response);
+//        } catch (RuntimeException e) {
+//            ResponseDto errorResponse = new ResponseDto("Failed to suspend user: " + e.getMessage(), 500);
+//            return ResponseEntity.status(500).body(errorResponse);
+//        }
+//    }
+//
+//
+//    // Validate service endpoint
+//    @PostMapping("/validate-service/{serviceId}")
+//    public ResponseEntity<ResponseDto> validateService(@PathVariable Long serviceId) {
+//        try {
+//            ResponseDto response = adminService.validateService(serviceId);
+//            return ResponseEntity.ok(response);
+//        } catch (RuntimeException e) {
+//            ResponseDto errorResponse = new ResponseDto("Failed to validate service: " + e.getMessage(), 500);
+//            return ResponseEntity.status(500).body(errorResponse);
+//        }
+//    }
 
 
     // Delete service because it's against our policy
@@ -178,25 +234,4 @@ public class AdminController {
 
 }
 
-//
 
-//
-//
-//    @PostMapping("/suspend-user/{userId}")
-//    public ResponseEntity<?> suspendUser(@PathVariable Long userId) {
-//        adminService.suspendUser(userId);
-//        return ResponseEntity.ok("User suspended successfully.");
-//    }
-//
-//    @PostMapping("/validate-service/{serviceId}")
-//    public ResponseEntity<?> validateService(@PathVariable Long serviceId) {
-//        adminService.validateService(serviceId);
-//        return ResponseEntity.ok("Service validated successfully.");
-//    }
-//
-//    @PostMapping("/reset-password/{userId}")
-//    public ResponseEntity<?> resetUserPassword(@PathVariable Long userId) {
-//        adminService.resetUserPassword(userId);
-//        return ResponseEntity.ok("User password reset successfully.");
-//    }
-//}
