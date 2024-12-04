@@ -72,4 +72,22 @@ public class FreelancerDto {
     @NotBlank(message = "Address cannot be blank")
     @Size(max = 255, message = "Address cannot exceed 255 characters")
     private String address;
+
+    public Freelancer toFreelancer() {
+        return new Freelancer(
+                image,id,
+                name,
+                username,
+                email,
+                servicesProposes,
+                nickName,
+                publicEmail,
+                description,
+                phoneNumber,
+                region,
+                city,
+                zip,
+                address
+        );
+    }
 }

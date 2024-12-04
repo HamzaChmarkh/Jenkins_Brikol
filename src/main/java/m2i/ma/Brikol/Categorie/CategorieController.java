@@ -1,5 +1,6 @@
 package m2i.ma.Brikol.Categorie;
 
+import jakarta.validation.Valid;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,14 @@ public class CategorieController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<ResponseDto> addCategorie(@RequestBody Categorie categorie) {
+    public ResponseEntity<ResponseDto> addCategorie(@Valid @RequestBody CategorieDto categorieDTO) {
+        Categorie categorie = categorieDTO.toCategorie();
         return categorieService.createCategorie(categorie);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<ResponseDto> updateCategorie(@RequestBody Categorie categorie) {
+    public ResponseEntity<ResponseDto> updateCategorie(@RequestBody CategorieDto categorieDto) {
+        Categorie categorie = categorieDto.toCategorie();
         return categorieService.updateCategorie(categorie);
     }
 
@@ -41,7 +44,8 @@ public class CategorieController {
 
     @GetMapping("/all")
     public ResponseEntity<List<CategorieDto>> getAllCategories() {
-        return categorieService.getAllCategories();
+
+      return categorieService.getAllCategories();
     }
 
 

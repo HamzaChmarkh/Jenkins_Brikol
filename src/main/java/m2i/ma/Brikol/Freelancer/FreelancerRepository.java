@@ -8,4 +8,6 @@ public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
 
 
     Freelancer findByUsername(String username);
+
+    boolean existsByUsername(String username);
 }

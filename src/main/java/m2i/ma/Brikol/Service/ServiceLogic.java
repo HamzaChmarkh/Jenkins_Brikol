@@ -3,6 +3,7 @@ package m2i.ma.Brikol.Service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import m2i.ma.Brikol.Categorie.Categorie;
+import m2i.ma.Brikol.Categorie.CategorieService;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
 import m2i.ma.Brikol.Freelancer.Freelancer;
 import m2i.ma.Brikol.Freelancer.FreelancerService;
@@ -26,11 +27,10 @@ public class ServiceLogic {
         this.serviceRepository = serviceRepository;
     }
 
-    public ResponseEntity<ResponseDto> modfierTous(Service service, Categorie categorie) {
+    public ResponseEntity<ResponseDto> modfierTous(Service service) {
         try {
             FreelancerService.checkNull(service, SERVICE_NULL);
-            FreelancerService.checkNull(categorie, CATEGORY_NULL);
-            service.setCategorie(categorie);
+
             serviceRepository.save(service);
             return ResponseEntity.ok(new ResponseDto("Service updated successfully", 200));
         } catch (Exception e) {
@@ -46,6 +46,7 @@ public class ServiceLogic {
                     service.getTitre(),
                     service.getDescription(),
                     service.getPrix(),
+                    service.getPathImage(),
                     service.getFreelancer(),
                     service.getCategorie()
             );
@@ -54,10 +55,24 @@ public class ServiceLogic {
         }
 
     }
+    public static  void checkService(Service service) {
+        if (service == null) {
+            throw new ServiceException(SERVICE_NULL);
+        } else if (service.getTitre() == null) {
+            throw new ServiceException("Title is null");
+        } else if (service.getDescription() == null) {
+            throw new ServiceException("Description is null");
+        } else if (service.getPrix() == null) {
+            throw new ServiceException("Price is null");
+        } else if (service.getPathImage() == null) {
+            throw new ServiceException("Image path is null");
+        } else if (service.getFreelancer() == null) {
+            throw new ServiceException("Freelancer is null");
+        } else if (service.getCategorie() == null) {
+            throw new ServiceException("Category is null");
+        }
 
-
-
-
+    }
 
     public ResponseEntity<ServiceDto>  getServiceById(Long id) {
         try {
@@ -73,12 +88,15 @@ public class ServiceLogic {
     public ResponseEntity<List<ServiceDto>> getServiceByCategorie(Categorie categorie) {
         try {
             FreelancerService.checkNull(categorie, CATEGORY_NULL);
+            CategorieService.checkCategory(categorie);
             return ResponseEntity.ok(serviceRepository.findByCategorie(categorie).stream().map(this::getServiceDto).toList());
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by category", e);
         }
 
     }
+
+
 
 
     public ResponseEntity<List<ServiceDto>> getServiceByTitre(String titre) {
@@ -104,6 +122,7 @@ public class ServiceLogic {
     public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(Freelancer freelancer) {
         try {
             FreelancerService.checkNull(freelancer, "Freelancer is null");
+            FreelancerService.checkFreelancer(freelancer);
             return ResponseEntity.ok(serviceRepository.findByFreelancer(freelancer).stream().map(this::getServiceDto).toList());
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by freelancer", e);
@@ -115,6 +134,7 @@ public class ServiceLogic {
     public ResponseEntity<ResponseDto> supprimerService(Service service) {
         try {
             FreelancerService.checkNull(service, SERVICE_NULL);
+            checkService(service);
             serviceRepository.delete(service);
             return ResponseEntity.ok(new ResponseDto("Service deleted successfully", 200));
         } catch (Exception e) {
@@ -133,13 +153,12 @@ public class ServiceLogic {
         }
     }
 
-    public ResponseEntity<ResponseDto> ajouterService(Service service, Categorie categorie, Freelancer freelancer) {
+    public ResponseEntity<ResponseDto> ajouterService(Service service) {
         try {
             FreelancerService.checkNull(service, SERVICE_NULL);
-            FreelancerService.checkNull(categorie, CATEGORY_NULL);
-            service.setCategorie(categorie);
-            service.setFreelancer(freelancer);
+            checkService(service);
             serviceRepository.save(service);
+
             return ResponseEntity.ok(new ResponseDto("Service created successfully", 200));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while creating the service", e);
