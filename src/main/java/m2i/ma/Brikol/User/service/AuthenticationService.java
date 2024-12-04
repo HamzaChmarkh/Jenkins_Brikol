@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface AuthenticationService {
 
-    ResponseEntity<SignInResponse> signIn(SignInRequest signinRequest);
+    ResponseEntity<?> signIn(SignInRequest signinRequest);
 
     JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
 

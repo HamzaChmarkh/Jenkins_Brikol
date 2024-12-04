@@ -15,7 +15,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<SignInResponse> signin(@RequestBody SignInRequest signinRequest ){
+    public ResponseEntity<?> signin(@RequestBody SignInRequest signinRequest ){
         return authenticationService.signIn(signinRequest);
     }
 
