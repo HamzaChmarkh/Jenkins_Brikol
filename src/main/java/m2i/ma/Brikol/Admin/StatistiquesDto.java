@@ -10,4 +10,6 @@ public class StatistiquesDto {
     private long totalFreelancers;
     private long totalClients;
     private long totalServices;
+    private long totalCategories;
+    // add more if you want
 }

@@ -61,14 +61,6 @@ import java.util.List;
 
     private final UtilisateurRepository utilisateurRepository;
 
-        // Ajouter un nouvel administrateur
-        public ResponseDto ajouterAdmin(Admin admin) {
-            if (utilisateurRepository.findByEmail(admin.getEmail()).isPresent()) {
-                return new ResponseDto("Email déjà utilisé.", HttpStatus.BAD_REQUEST.value());
-            }
-            adminRepository.save(admin);
-            return new ResponseDto("Administrateur ajouté avec succès.", HttpStatus.CREATED.value());
-        }
 
     // Delete a user
     public ResponseDto supprimerUtilisateur(Long utilisateurId) {
@@ -111,8 +103,9 @@ import java.util.List;
         long totalFreelancers = utilisateurRepository.countByRole(Role.Freelancer);
         long totalClients = utilisateurRepository.countByRole(Role.Client);
         long totalServices = serviceRepository.count();
+        long totalCategories = categorieRepository.count();
 
-        return new StatistiquesDto(totalUsers, totalFreelancers, totalClients, totalServices);
+        return new StatistiquesDto(totalUsers, totalFreelancers, totalClients, totalServices,totalCategories);
     }
 
     // get freelancers details like services and personal info

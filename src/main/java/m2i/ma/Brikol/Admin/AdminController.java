@@ -40,24 +40,6 @@ public class AdminController {
     @Autowired
     private ClientService clientService;
 
-
-    // Endpoint pour ajouter un administrateur
-    @PostMapping("/add")
-    public ResponseEntity<ResponseDto> ajouterAdmin(@RequestBody Admin admin) {
-        try {
-            // Call the service method, which returns ResponseDto
-            ResponseDto response = adminService.ajouterAdmin(admin);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            // Handle unexpected exceptions
-            ResponseDto errorResponse = new ResponseDto("Failed to add admin: " + e.getMessage(), 500);
-            return ResponseEntity.status(500).body(errorResponse);
-        }
-    }
-
-
-
-
     // Endpoint pour supprimer un utilisateur
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseDto> supprimerUtilisateur(@PathVariable Long id) {
@@ -103,17 +85,17 @@ public class AdminController {
     }
 
     //Api to get  categorie count
-    @GetMapping("/getCategoryNumber")
-    public ResponseEntity<ResponseDto> calculerNombreDeCategories() {
-        try {
-            long categoryCount = adminService.calculerNombreDeCategories(); // Call the service method
-            ResponseDto response = new ResponseDto("Number of categories fetched successfully: " + categoryCount, 200);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            ResponseDto errorResponse = new ResponseDto("Failed to fetch category count: " + e.getMessage(), 500);
-            return ResponseEntity.status(500).body(errorResponse);
-        }
-    }
+//    @GetMapping("/getCategoryNumber")
+//    public ResponseEntity<ResponseDto> calculerNombreDeCategories() {
+//        try {
+//            long categoryCount = adminService.calculerNombreDeCategories(); // Call the service method
+//            ResponseDto response = new ResponseDto("Number of categories fetched successfully: " + categoryCount, 200);
+//            return ResponseEntity.ok(response);
+//        } catch (Exception e) {
+//            ResponseDto errorResponse = new ResponseDto("Failed to fetch category count: " + e.getMessage(), 500);
+//            return ResponseEntity.status(500).body(errorResponse);
+//        }
+//    }
 
 
 
