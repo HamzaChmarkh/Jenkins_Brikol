@@ -84,19 +84,6 @@ public class AdminController {
         return clientService.findAllClients();
     }
 
-    //Api to get  categorie count
-//    @GetMapping("/getCategoryNumber")
-//    public ResponseEntity<ResponseDto> calculerNombreDeCategories() {
-//        try {
-//            long categoryCount = adminService.calculerNombreDeCategories(); // Call the service method
-//            ResponseDto response = new ResponseDto("Number of categories fetched successfully: " + categoryCount, 200);
-//            return ResponseEntity.ok(response);
-//        } catch (Exception e) {
-//            ResponseDto errorResponse = new ResponseDto("Failed to fetch category count: " + e.getMessage(), 500);
-//            return ResponseEntity.status(500).body(errorResponse);
-//        }
-//    }
-
 
 
     // get freelancers details like services and personal info when clicked
@@ -183,19 +170,7 @@ public class AdminController {
 //            return ResponseEntity.status(500).body(errorResponse);
 //        }
 //    }
-//
-//
-//    // Validate service endpoint
-//    @PostMapping("/validate-service/{serviceId}")
-//    public ResponseEntity<ResponseDto> validateService(@PathVariable Long serviceId) {
-//        try {
-//            ResponseDto response = adminService.validateService(serviceId);
-//            return ResponseEntity.ok(response);
-//        } catch (RuntimeException e) {
-//            ResponseDto errorResponse = new ResponseDto("Failed to validate service: " + e.getMessage(), 500);
-//            return ResponseEntity.status(500).body(errorResponse);
-//        }
-//    }
+
 
 
     // Delete service because it's against our policy
