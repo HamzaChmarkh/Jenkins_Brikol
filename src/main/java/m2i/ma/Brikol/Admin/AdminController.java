@@ -122,7 +122,7 @@ public class AdminController {
 
             // Manually map List<Service> to List<ServiceDto>
             List<ServiceDto> serviceDtos = services.stream()
-                    .map(service -> new ServiceDto(service.getId(), service.getTitre(), service.getDescription(),service.getPrix(),service.getFreelancer(),service.getCategorie()))
+                    .map(service -> new ServiceDto(service.getId(), service.getTitre(), service.getDescription(),service.getPrix(),service.getPathImage(),service.getFreelancer(),service.getCategorie()))
                     .collect(Collectors.toList());
 
             // Return the List of ServiceDto objects wrapped in ResponseEntity
@@ -160,16 +160,16 @@ public class AdminController {
 
 
     // Suspend user endpoint
-//    @PostMapping("/suspend-user/{userId}")
-//    public ResponseEntity<ResponseDto> suspendUser(@PathVariable Long userId) {
-//        try {
-//            ResponseDto response = adminService.suspendUser(userId);
-//            return ResponseEntity.ok(response);
-//        } catch (RuntimeException e) {
-//            ResponseDto errorResponse = new ResponseDto("Failed to suspend user: " + e.getMessage(), 500);
-//            return ResponseEntity.status(500).body(errorResponse);
-//        }
-//    }
+    @PostMapping("/suspend-user/{userId}")
+    public ResponseEntity<ResponseDto> suspendUser(@PathVariable Long userId) {
+        try {
+            ResponseDto response = adminService.suspendUser(userId);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            ResponseDto errorResponse = new ResponseDto("Failed to suspend user: " + e.getMessage(), 500);
+            return ResponseEntity.status(500).body(errorResponse);
+        }
+    }
 
 
 

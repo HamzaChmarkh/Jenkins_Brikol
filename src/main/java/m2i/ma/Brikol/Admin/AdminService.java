@@ -81,13 +81,13 @@ import java.util.List;
         return categorieRepository.count();
     }
 
-//    public ResponseDto suspendUser(Long userId) {
-//        Utilisateur user = userRepository.findById(userId)
-//                .orElseThrow(() -> new RuntimeException("User not found"));
-//        user.setSuspended(true); // Assuming the 'suspended' field exists in Utilisateur
-//        userRepository.save(user);
-//        return new ResponseDto("User suspended successfully", HttpStatus.OK.value());
-//    }
+    public ResponseDto suspendUser(Long userId) {
+        Utilisateur user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setSuspended(true); // Assuming the 'suspended' field exists in Utilisateur
+        userRepository.save(user);
+        return new ResponseDto("User suspended successfully", HttpStatus.OK.value());
+    }
 //
 //
 //    public ResponseDto validateService(Long serviceId) {
