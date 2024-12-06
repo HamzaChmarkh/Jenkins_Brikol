@@ -38,6 +38,8 @@ import java.util.List;
     @Autowired
     private final CategorieRepository categorieRepository;
 
+    private final UtilisateurRepository utilisateurRepository;
+
 
     @Autowired
     private FreelancerRepository freelancerRepository;
@@ -59,7 +61,7 @@ import java.util.List;
 
 
 
-    private final UtilisateurRepository utilisateurRepository;
+
 
 
     // Delete a user
@@ -88,8 +90,7 @@ import java.util.List;
         userRepository.save(user);
         return new ResponseDto("User suspended successfully", HttpStatus.OK.value());
     }
-//
-//
+
 //    public ResponseDto validateService(Long serviceId) {
 //        m2i.ma.Brikol.Service.Service service = serviceRepository.findById(serviceId)
 //                .orElseThrow(() -> new RuntimeException("Service not found"));
@@ -126,4 +127,4 @@ import java.util.List;
         return dto;
     }
 
-    }
+}

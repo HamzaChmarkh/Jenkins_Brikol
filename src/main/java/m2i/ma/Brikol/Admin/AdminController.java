@@ -137,28 +137,6 @@ public class AdminController {
 
 
 
-    // Search for services by freelancer so as to validate or delete them
-//    @PostMapping("/getByFreelancer")
-//    public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(@RequestBody Freelancer freelancer) {
-//        try {
-//            // Call the service logic to get services by freelancer
-//            List<ServiceDto> serviceDtos = serviceLogic.getServiceByFreelancer(freelancer);
-//
-//            // Create a ResponseDto with the message and status only
-//            ResponseDto response = new ResponseDto("Services fetched successfully", 200);
-//
-//            // Return the ResponseDto with the list as part of the body, not in the ResponseDto constructor
-//            return ResponseEntity.ok().body(serviceDtos);  // Returning the list as the response body
-//        } catch (Exception e) {
-//            // Handle errors and send a failure response
-//            ResponseDto errorResponse = new ResponseDto("Failed to fetch services: " + e.getMessage(), 500);
-//            return ResponseEntity.status(500).body(errorResponse);
-//        }
-//    }
-
-
-
-
     // Suspend user endpoint
     @PostMapping("/suspend-user/{userId}")
     public ResponseEntity<ResponseDto> suspendUser(@PathVariable Long userId) {
