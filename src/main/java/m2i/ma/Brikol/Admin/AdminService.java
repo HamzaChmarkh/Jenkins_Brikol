@@ -91,13 +91,6 @@ import java.util.List;
         return new ResponseDto("User suspended successfully", HttpStatus.OK.value());
     }
 
-//    public ResponseDto validateService(Long serviceId) {
-//        m2i.ma.Brikol.Service.Service service = serviceRepository.findById(serviceId)
-//                .orElseThrow(() -> new RuntimeException("Service not found"));
-//        service.setValidated(true); // Assuming a 'validated' field exists in Service
-//        serviceRepository.save(service);
-//        return new ResponseDto("Service validated successfully", HttpStatus.OK.value());
-//    }
 
     public StatistiquesDto consulterStatistiques() {
         long totalUsers = utilisateurRepository.count();

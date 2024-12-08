@@ -117,7 +117,7 @@ public class AdminController {
     @GetMapping("/getAllServices")
     public ResponseEntity<List<ServiceDto>> getAllServices() {
         try {
-            // Get all services from the repository (List<Service>)
+            // Get all services from the repository
             List<Service> services = serviceRepository.findAll();
 
             // Manually map List<Service> to List<ServiceDto>
