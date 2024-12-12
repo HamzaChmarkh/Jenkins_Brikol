@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @RestController
-@RequestMapping("/homepage")
+@RequestMapping("/home")
 public class HomePageController {
 
     private final HomePageService homePageService;
