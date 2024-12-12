@@ -70,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+    public ResponseEntity<SignInResponse> refreshToken(RefreshTokenRequest refreshTokenRequest) {
         String userEmail = jwtService.extractUserName(refreshTokenRequest.getRefresh_token());
         Utilisateur user = utilisateurRepository.findByEmail(userEmail).orElseThrow();
         if (jwtService.isTokenValid(refreshTokenRequest.getRefresh_token(), user)) {
@@ -79,9 +79,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
             jwtAuthenticationResponse.setAccess_token(jwt);
             jwtAuthenticationResponse.setRefresh_token(refreshTokenRequest.getRefresh_token());
-            return jwtAuthenticationResponse;
+            SignInResponse signInResponse = UtilisateurMapper.toSignInResponse(user, jwtAuthenticationResponse);
+            return new ResponseEntity<>(signInResponse, HttpStatus.OK);
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     public ResponseEntity<?> checkEmail(EmailRequest emailRequest) {
@@ -157,8 +158,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return new ResponseEntity<>("Email confirmed", HttpStatus.OK);
     }
-
-
-
 
 }

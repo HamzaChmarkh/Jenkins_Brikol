@@ -37,4 +37,24 @@ public class EmailServiceImpl implements EmailService {
 
         mailSender.send(mimeMessage);
     }
+
+    public void sendEmailResetPassword(String toEmail, String token) throws MessagingException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+
+        // Set up Thymeleaf context with variables
+        Context context = new Context();
+        context.setVariable("token", token);
+
+        // Render the template
+        String htmlContent = templateEngine.process("reset-password-email", context);
+
+        helper.setText(htmlContent, true);
+        helper.setTo(toEmail);
+        helper.setSubject("Reset Password");
+        helper.setFrom("brikool.team@gmail.com");
+
+        mailSender.send(mimeMessage);
+
+    }
 }

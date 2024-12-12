@@ -9,7 +9,7 @@ public interface AuthenticationService {
 
     ResponseEntity<?> signIn(SignInRequest signinRequest);
 
-    JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
+    ResponseEntity<SignInResponse> refreshToken(RefreshTokenRequest refreshTokenRequest);
 
     ResponseEntity<?> checkEmail(EmailRequest emailRequest);
     ResponseEntity<String> signUp(SignUpRequest signUpRequest) throws MessagingException;
