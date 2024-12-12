@@ -61,5 +61,5 @@ public class ClientController {
         return ResponseEntity.ok(client);
     }
 
-    // Additional endpoints as necessary
+    // Additional endpoints as necessary ok
 }
