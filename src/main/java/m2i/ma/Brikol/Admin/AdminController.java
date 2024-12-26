@@ -25,20 +25,30 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private AdminService adminService;
+
+
+    private final AdminService adminService;
+
+
+    private final ServiceRepository serviceRepository;
+
+
+    private final ServiceLogic serviceLogic;
+
+
+    private final CategorieService categorieService;
+
+
+    private final ClientService clientService;
 
     @Autowired
-    private ServiceRepository serviceRepository;
-
-    @Autowired
-    private ServiceLogic serviceLogic;
-
-    @Autowired
-    private CategorieService categorieService;
-
-    @Autowired
-    private ClientService clientService;
+    public AdminController( AdminService adminService, ServiceRepository serviceRepository, ServiceLogic serviceLogic, CategorieService categorieService, ClientService clientService) {
+        this.adminService = adminService;
+        this.serviceRepository = serviceRepository;
+        this.serviceLogic = serviceLogic;
+        this.categorieService = categorieService;
+        this.clientService = clientService;
+    }
 
     // Endpoint pour supprimer un utilisateur
     @DeleteMapping("/delete/{id}")
@@ -122,7 +132,7 @@ public class AdminController {
 
             // Manually map List<Service> to List<ServiceDto>
             List<ServiceDto> serviceDtos = services.stream()
-                    .map(service -> new ServiceDto(service.getId(), service.getTitre(), service.getDescription(),service.getPrix(),service.getPathImage(),service.getFreelancer(),service.getCategorie()))
+                    .map(service -> new ServiceDto(service.getId(), service.getTitre(), service.getDescription(),service.getPrix(),service.getPathImage(),service.getIdfreelancer(),service.getIdcategorie()))
                     .collect(Collectors.toList());
 
             // Return the List of ServiceDto objects wrapped in ResponseEntity

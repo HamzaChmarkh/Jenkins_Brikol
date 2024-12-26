@@ -1,7 +1,6 @@
 package m2i.ma.Brikol.Admin;
 
 import jakarta.transaction.Transactional;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import m2i.ma.Brikol.Categorie.CategorieRepository;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
@@ -16,7 +15,6 @@ import m2i.ma.Brikol.User.dto.UtilisateurResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import m2i.ma.Brikol.Service.ServiceDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,25 +22,34 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-    public class AdminService {
+public class AdminService {
 
-    @Autowired
-    private AdminRepository adminRepository;
 
-    @Autowired
-    private UtilisateurRepository userRepository;
+    private final AdminRepository adminRepository;
 
-    @Autowired
-    private ServiceRepository serviceRepository;
 
-    @Autowired
+    private final UtilisateurRepository userRepository;
+
+
+    private final ServiceRepository serviceRepository;
+
+
     private final CategorieRepository categorieRepository;
 
     private final UtilisateurRepository utilisateurRepository;
 
 
-    @Autowired
     private FreelancerRepository freelancerRepository;
+
+    @Autowired
+    public  AdminService(AdminRepository adminRepository, UtilisateurRepository userRepository, ServiceRepository serviceRepository, CategorieRepository categorieRepository, UtilisateurRepository utilisateurRepository, FreelancerRepository freelancerRepository) {
+        this.adminRepository = adminRepository;
+        this.userRepository = userRepository;
+        this.serviceRepository = serviceRepository;
+        this.categorieRepository = categorieRepository;
+        this.utilisateurRepository = utilisateurRepository;
+        this.freelancerRepository = freelancerRepository;
+    }
 
     public List<UtilisateurResponse> getAllUsers() {
         return userRepository.findAll().stream()
@@ -105,19 +112,10 @@ import java.util.List;
     // get freelancers details like services and personal info
     public FreelancerDto getFreelancerDetails(Long freelancerId) {
         Freelancer freelancer = freelancerRepository.findById(freelancerId)
-                .filter(user -> user instanceof Freelancer)
+                .filter(user -> user.getRole() == Role.Freelancer)
                 .orElseThrow(() -> new RuntimeException("Freelancer not found"));
 
-        FreelancerDto dto = new FreelancerDto();
-        dto.setId(freelancer.getId());
-        dto.setName(freelancer.getNom());
-        dto.setUsername(freelancer.getUsername());
-        dto.setEmail(freelancer.getEmail());
-        dto.setNickName(freelancer.getNickName());
-        dto.setServicesProposes(freelancer.getServicesProposes());
-        dto.setRegion(freelancer.getRegion());
-        dto.setCity(freelancer.getCity());
-        return dto;
+        return  freelancer.toFreelancerDto();
     }
 
 }

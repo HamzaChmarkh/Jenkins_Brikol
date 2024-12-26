@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/service")
+@RequestMapping("/freelancer/service")
 public class ServiceController {
         private final ServiceLogic serviceLogic;
         @Autowired
@@ -46,7 +46,7 @@ public class ServiceController {
 
         @GetMapping("/ByFreelancer")
         public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(@Valid @RequestBody FreelancerDto freelancerDto) {
-            Freelancer freelancer = freelancerDto.toFreelancer();
+            Freelancer freelancer = freelancerDto.toFreelancer(freelancerDto);
          return   serviceLogic.getServiceByFreelancer(freelancer);
         }
 

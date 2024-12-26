@@ -33,14 +33,13 @@ public class FreelancerController {
 
     }
     @PostMapping("/add/{id}")
-    public ResponseEntity<ResponseDto> addService(@Valid @PathVariable Long id, @Valid FreelancerDto freelancerDto, @Valid ServiceDto serviceDto) {
-        Freelancer freelancer = freelancerService.toFreelancer(freelancerDto);
+    public ResponseEntity<ResponseDto> addService(@Valid @PathVariable Long id,@Valid ServiceDto serviceDto) {
         Service service = serviceDto.toService();
         return freelancerService.addServiceToFreelancer(id, service);
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<FreelancerDto> getFreelancer(@NotNull @PathVariable Long id) {
+    public ResponseEntity<FreelancerDto> getFreelancer(@PathVariable Long id) {
         try {
             return freelancerService.getFreelancerById(id);
         } catch (Exception e) {
@@ -50,14 +49,10 @@ public class FreelancerController {
     }
 
 
-    @GetMapping("/get/{username}")
-    public ResponseEntity<FreelancerDto> getFreelancer(@NotBlank @PathVariable String username) {
-        return freelancerService.getFreelancerByUsername(username);
-    }
 
     @PostMapping("/Modify")
     public ResponseEntity<ResponseDto> modifyFreelancer(@Valid @RequestBody FreelancerDto freelancerDto) {
-        Freelancer freelancer = freelancerService.toFreelancer(freelancerDto);
+        Freelancer freelancer = freelancerDto.toFreelancer(freelancerDto);
 
         return freelancerService.modifyFreelancer(freelancer);
     }

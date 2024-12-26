@@ -27,11 +27,11 @@ public class ServiceDto {
     @NotBlank(message = "pathImage is required")
     private String pathImage;
     @NotNull(message = "freelancerId is required")
-    private Freelancer freelancerId;
+    private Long freelancerId;
     @NotNull(message = "categorieId is required")
     private Categorie categorieId;
 
-    public ServiceDto(Long id, String titre, String description, Double prix,String pathImage, Freelancer freelancerId, Categorie categorieId) {
+    public ServiceDto(Long id, String titre, String description, Double prix,String pathImage, Long freelancerId, Categorie categorieId) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -44,7 +44,15 @@ public class ServiceDto {
 
 
     public Service toService(){
-        return new Service(id,titre,description,prix,pathImage,freelancerId,categorieId);
+        Service service = new Service();
+        service.setId(this.id);
+        service.setTitre(this.titre);
+        service.setDescription(this.description);
+        service.setPrix(this.prix);
+        service.setPathImage(this.pathImage);
+        service.setIdfreelancer(this.freelancerId);
+        service.setIdcategorie(this.categorieId);
+        return service;
     }
 
 

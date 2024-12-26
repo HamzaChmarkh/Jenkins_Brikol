@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import m2i.ma.Brikol.Categorie.Categorie;
-import m2i.ma.Brikol.Freelancer.Freelancer;
 
 @Entity
 @Table(name = "service")
@@ -28,13 +27,14 @@ public class Service {
     @Column(name = "path_image")
     String pathImage;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, targetEntity = Freelancer.class)
-    @JoinColumn(name = "freelancer_id")
-    private Freelancer freelancer;
+    @PrimaryKeyJoinColumn(name = "idfreelancer")
+    private Long Idfreelancer;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, targetEntity = Categorie.class)
-    @JoinColumn(name = "categorie_id")
-    private Categorie categorie;
-
+    @PrimaryKeyJoinColumn(name = "idcategorie")
+    private Categorie Idcategorie;
+    
+    public Object toServiceDto(){
+        return new ServiceDto(this.id, this.titre, this.description, this.prix, this.pathImage, this.Idfreelancer, this.Idcategorie);
+    }
 
 }

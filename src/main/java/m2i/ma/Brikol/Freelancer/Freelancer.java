@@ -6,12 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import m2i.ma.Brikol.Service.Service;
 import m2i.ma.Brikol.User.Role;
 import m2i.ma.Brikol.User.Utilisateur;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.List;
 import java.util.Objects;
 
 
@@ -23,6 +21,11 @@ import java.util.Objects;
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name = "id")
 public class Freelancer extends Utilisateur {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "nick_name")
     private String nickName;
@@ -42,38 +45,22 @@ public class Freelancer extends Utilisateur {
     @Column(name = "city")
     private String city;
 
+
     @Column(name = "zip")
     private String zip;
 
     @Column(name = "address")
     private String address;
 
+    @Column(name = "image")
+    private String image;
 
-    @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Service.class)
-    private List<Service> servicesProposes;
 
+    private Role role = Role.Freelancer;
 
-    public Freelancer(String nom, String email, Role role, String motDePasse, List<Service> servicesProposes) {
-        super(nom, email, role, motDePasse);
-        this.servicesProposes = servicesProposes;
-    }
-
-    public Freelancer(String image, Long id, String name, String username, String email, List<Service> servicesProposes, String nickName, String publicEmail, String description, String phoneNumber, String region, String city, String zip, String address) {
-    }
-
-    @Override
-    public final boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        } else if (o != null && HibernateProxy.class.isAssignableFrom(o.getClass())) {
-            return o.equals(this);
-        } else if (o == null || getClass() != o.getClass()) {
-            return false;
-        } else {
-            Freelancer freelancer = (Freelancer) o;
-            return Objects.equals(getId(), freelancer.getId());
-        }
-    }
+   public FreelancerDto toFreelancerDto(){
+         return new FreelancerDto(this.id,this.role,this.nickName, this.publicEmail, this.description, this.phoneNumber, this.region, this.city, this.zip, this.address, this.image);
+   }
 
 
 }

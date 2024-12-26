@@ -10,7 +10,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="Brikol" value="f210ec9d-c090-4160-a901-256328b6b8e9" />
-          <factory-entry name="entityManagerFactory" value="f210ec9d-c090-4160-a901-256328b6b8e9" />
+          <factory-entry name="entityManagerFactory" value="9c3362ab-134d-43b7-9328-77bee99622c8" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>

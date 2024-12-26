@@ -31,33 +31,16 @@ public class FreelancerService {
     }
 
     public static void checkFreelancer(Freelancer freelancer) {
-        if (freelancer == null) {
-            throw new RuntimeException("Freelancer is null");
-        } else if (freelancer.getNom().isEmpty()) {
-            throw new RuntimeException("Freelancer name is empty");
-        } else if (freelancer.getUsername().isEmpty()) {
-            throw new RuntimeException("Freelancer username is empty");
-        } else if (freelancer.getEmail().isEmpty()) {
-            throw new RuntimeException("Freelancer email is empty");
-        } else if (freelancer.getServicesProposes().isEmpty()) {
-            throw new RuntimeException("Freelancer services is empty");
-        } else if (freelancer.getNickName().isEmpty()) {
-            throw new RuntimeException("Freelancer nickname is empty");
-        } else if (freelancer.getPublicEmail().isEmpty()) {
-            throw new RuntimeException("Freelancer public email is empty");
-        } else if (freelancer.getDescription().isEmpty()) {
-            throw new RuntimeException("Freelancer description is empty");
-        } else if (freelancer.getPhoneNumber().isEmpty()) {
-            throw new RuntimeException("Freelancer phone number is empty");
-        } else if (freelancer.getRegion().isEmpty()) {
-            throw new RuntimeException("Freelancer region is empty");
-        } else if (freelancer.getCity().isEmpty()) {
-            throw new RuntimeException("Freelancer city is empty");
-        } else if (freelancer.getZip().isEmpty()) {
-            throw new RuntimeException("Freelancer zip is empty");
-        } else if (freelancer.getAddress().isEmpty()) {
-            throw new RuntimeException("Freelancer address is empty");
-        }
+        checkNull(freelancer, "Freelancer is null");
+        checkNull(freelancer.getNickName(), "Nickname is null");
+        checkNull(freelancer.getPublicEmail(), "Public email is null");
+        checkNull(freelancer.getDescription(), "Description is null");
+        checkNull(freelancer.getPhoneNumber(), "Phone number is null");
+        checkNull(freelancer.getRegion(), "Region is null");
+        checkNull(freelancer.getCity(), "City is null");
+        checkNull(freelancer.getZip(), "ZIP code is null");
+        checkNull(freelancer.getAddress(), "Address is null");
+        checkNull(freelancer.getImage(), "Image URL is null");
     }
 
 
@@ -66,24 +49,7 @@ public class FreelancerService {
         try {
             checkNull(freelancer, "Freelancer is null");
             return new ResponseEntity<>(
-                    new FreelancerDto(
-                            freelancer.getImage(),
-                            freelancer.getId(),
-                            freelancer.getNom(),
-                            freelancer.getUsername(),
-                            freelancer.getEmail(),
-                            freelancer.getServicesProposes(),
-                            freelancer.getNickName(),
-                            freelancer.getPublicEmail(),
-                            freelancer.getDescription(),
-                            freelancer.getPhoneNumber(),
-                            freelancer.getRegion(),
-                            freelancer.getCity(),
-                            freelancer.getZip(),
-                            freelancer.getAddress()
-
-
-                    ),
+                    freelancer.toFreelancerDto(),
                     HttpStatus.OK
             );
 
@@ -101,7 +67,6 @@ public class FreelancerService {
                 throw new RuntimeException("Freelancer not found");
             }
             Freelancer freelancer = freelancerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-            freelancer.getServicesProposes().add(service);
             freelancerRepository.save(freelancer);
             return ResponseEntity.ok(new ResponseDto("Service added successfully", 200));
         } catch (Exception e) {
@@ -135,17 +100,6 @@ public class FreelancerService {
         }
     }
 
-    public ResponseEntity<FreelancerDto> getFreelancerByUsername(String username) {
-        try {
-            checkNull(username, "Username is null");
-            if (!freelancerRepository.existsByUsername(username)) {
-                throw new RuntimeException("Freelancer not found");
-            }
-            return getFreelancerDto(freelancerRepository.findByUsername(username));
-        } catch (Exception e) {
-            throw new RuntimeException("An error occurred while getting freelancer by username", e);
-        }
-    }
 
     public ResponseEntity<ResponseDto> modifyFreelancer(Freelancer freelancer) {
         try {
@@ -163,23 +117,6 @@ public class FreelancerService {
         }
     }
 
-    public Freelancer toFreelancer(FreelancerDto freelancerDto) {
-        return new Freelancer(
-                freelancerDto.getImage(),
-                freelancerDto.getId(),
-                freelancerDto.getName(),
-                freelancerDto.getUsername(),
-                freelancerDto.getEmail(),
-                freelancerDto.getServicesProposes(),
-                freelancerDto.getNickName(),
-                freelancerDto.getPublicEmail(),
-                freelancerDto.getDescription(),
-                freelancerDto.getPhoneNumber(),
-                freelancerDto.getRegion(),
-                freelancerDto.getCity(),
-                freelancerDto.getZip(),
-                freelancerDto.getAddress()
-        );
-    }
+
 
 }

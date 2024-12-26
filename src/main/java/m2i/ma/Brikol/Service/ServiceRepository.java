@@ -10,11 +10,11 @@ import java.util.List;
 @Repository
 public interface ServiceRepository extends JpaRepository<Service , Long> {
 
-    List<Service> findByCategorie(Categorie categorie);
+    List<Service> findByIdcategorie(Categorie idcategorie);
 
     List<Service> findByTitre(String titre);
 
-    List<Service> findByFreelancer(Freelancer freelancer);
+    List<Service> findByIdfreelancer(Long idfreelancer);
 
     List<Service> findByPrix(Double prix);
 
