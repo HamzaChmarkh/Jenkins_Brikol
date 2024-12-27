@@ -1,5 +1,7 @@
 package m2i.ma.Brikol.Categorie;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,16 +29,12 @@ public class Categorie {
     @Column(name = "titre_en")
     private String titreEn;
 
+    @Column(name = "services")
+    @ElementCollection
+    private List<Long> services;
 
 
-    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Service.class)
-    private List<Service> services;
 
 
-    public Categorie(Long id, String titreAr, String titreFr, String titreEn) {
-        this.id = id;
-        this.titreAr = titreAr;
-        this.titreFr = titreFr;
-        this.titreEn = titreEn;
-    }
+
 }

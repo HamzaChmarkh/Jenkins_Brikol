@@ -3,11 +3,8 @@ package m2i.ma.Brikol.Service;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import m2i.ma.Brikol.Categorie.Categorie;
-import m2i.ma.Brikol.Categorie.CategorieDto;
+import m2i.ma.Brikol.Categorie.CategorieRepository;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
-import m2i.ma.Brikol.Freelancer.Freelancer;
-import m2i.ma.Brikol.Freelancer.FreelancerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +15,11 @@ import java.util.List;
 @RequestMapping("/freelancer/service")
 public class ServiceController {
         private final ServiceLogic serviceLogic;
+        private final CategorieRepository categorieRepository;
         @Autowired
-        public ServiceController(ServiceLogic serviceLogic) {
+        public ServiceController(ServiceLogic serviceLogic, CategorieRepository categorieRepository) {
             this.serviceLogic = serviceLogic;
+            this.categorieRepository = categorieRepository;
         }
 
         @GetMapping("/{id}")
@@ -28,34 +27,30 @@ public class ServiceController {
          return    serviceLogic.getServiceById(id);
         }
 
-        @GetMapping("/ByCategorie")
-        public ResponseEntity<List<ServiceDto>> getServiceByCategorie(@Valid @RequestBody CategorieDto categorieDto) {
-            Categorie categorie = categorieDto.toCategorie();
-         return   serviceLogic.getServiceByCategorie(categorie);
+        @GetMapping("/ByCategorie/{id}")
+        public ResponseEntity<List<ServiceDto>> getServiceByCategorie(@Valid @PathVariable Long id) {
+
+         return   serviceLogic.getServiceByCategorie(id);
         }
 
-        @GetMapping("/ByTitre/{titre}")
-        public ResponseEntity<List<ServiceDto>> getServiceByTitre(@RequestParam String titre) {
-         return   serviceLogic.getServiceByTitre(titre);
-        }
+
 
         @GetMapping("/ByPrix/{prix}")
-        public ResponseEntity<List<ServiceDto>> getServiceByPrix(@PositiveOrZero @Valid @RequestParam Double prix) {
+        public ResponseEntity<List<ServiceDto>> getServiceByPrix(@PositiveOrZero @Valid @PathVariable Double prix) {
          return    serviceLogic.getServiceByPrix(prix);
         }
 
-        @GetMapping("/ByFreelancer")
-        public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(@Valid @RequestBody FreelancerDto freelancerDto) {
-            Freelancer freelancer = freelancerDto.toFreelancer(freelancerDto);
-         return   serviceLogic.getServiceByFreelancer(freelancer);
+        @GetMapping("/ByIdFreelancer/{id}")
+        public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(@Valid @PathVariable Long id) {
+
+         return   serviceLogic.getServiceByFreelancer(id);
         }
 
-    @PostMapping("/update")
+        @PostMapping("/update")
         public ResponseEntity<ResponseDto> modfierTous(@Valid @RequestBody ServiceDto serviceDto) {
             Service service = serviceDto.toService();
            return  serviceLogic.modfierTous(service);
         }
-
         @PostMapping("/create")
         public ResponseEntity<ResponseDto> createService(@Valid @RequestBody ServiceDto serviceDto) {
             Service service = serviceDto.toService();
@@ -63,13 +58,8 @@ public class ServiceController {
 
         }
 
-        @PostMapping("/delete")
-        public ResponseEntity<ResponseDto> deleteService(@Valid @RequestBody ServiceDto serviceDto) {
-            Service service = serviceDto.toService();
-            return serviceLogic.supprimerService(service);
-        }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseDto> deleteService(@NotNull @Valid @PathVariable Long id) {
         return serviceLogic.supprimerService(id);
     }

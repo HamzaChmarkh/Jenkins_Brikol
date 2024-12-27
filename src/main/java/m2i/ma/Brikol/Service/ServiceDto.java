@@ -1,6 +1,5 @@
 package m2i.ma.Brikol.Service;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -8,12 +7,11 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
 import m2i.ma.Brikol.Categorie.Categorie;
-import m2i.ma.Brikol.Freelancer.Freelancer;
 
 @Setter
 @Getter
 public class ServiceDto {
-    @NotNull(message = "id is required")
+
     private  Long id;
     @NotBlank(message = "titre is required")
     @Pattern(regexp = "^[a-zA-Z0-9 ]+$",message = "titre must contain only letters and numbers")
@@ -29,16 +27,16 @@ public class ServiceDto {
     @NotNull(message = "freelancerId is required")
     private Long freelancerId;
     @NotNull(message = "categorieId is required")
-    private Categorie categorieId;
+    private Long categorie;
 
-    public ServiceDto(Long id, String titre, String description, Double prix,String pathImage, Long freelancerId, Categorie categorieId) {
+    public ServiceDto(Long id, String titre, String description, Double prix,String pathImage, Long freelancerId, Long categorie) {
         this.id = id;
         this.titre = titre;
         this.description = description;
         this.prix = prix;
         this.pathImage = pathImage;
         this.freelancerId = freelancerId;
-        this.categorieId = categorieId;
+        this.categorie= categorie;
     }
 
 
@@ -50,8 +48,8 @@ public class ServiceDto {
         service.setDescription(this.description);
         service.setPrix(this.prix);
         service.setPathImage(this.pathImage);
-        service.setIdfreelancer(this.freelancerId);
-        service.setIdcategorie(this.categorieId);
+        service.setIdFreelancer(this.freelancerId);
+        service.setCategorie(this.categorie);
         return service;
     }
 

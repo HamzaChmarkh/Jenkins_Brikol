@@ -3,6 +3,7 @@ package m2i.ma.Brikol.Freelancer;
 import jakarta.persistence.EntityNotFoundException;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
 import m2i.ma.Brikol.Service.ServiceLogic;
+import m2i.ma.Brikol.User.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class FreelancerService {
 
     private final FreelancerRepository freelancerRepository;
-
+    private final UtilisateurRepository utilisateurRepository;
 
     @Autowired
-    public FreelancerService(FreelancerRepository freelancerRepository) {
+    public FreelancerService(FreelancerRepository freelancerRepository, UtilisateurRepository utilisateurRepository) {
         this.freelancerRepository = freelancerRepository;
+        this.utilisateurRepository = utilisateurRepository;
 
     }
 
@@ -40,7 +42,6 @@ public class FreelancerService {
         checkNull(freelancer.getCity(), "City is null");
         checkNull(freelancer.getZip(), "ZIP code is null");
         checkNull(freelancer.getAddress(), "Address is null");
-        checkNull(freelancer.getImage(), "Image URL is null");
     }
 
 
@@ -58,21 +59,7 @@ public class FreelancerService {
         }
 
     }
-    public ResponseEntity<ResponseDto> addServiceToFreelancer(Long id, m2i.ma.Brikol.Service.Service service) {
-        try {
-            checkNull(id, "Id is null");
-            checkNull(service, "Service is null");
-            ServiceLogic.checkService(service);
-            if (!freelancerRepository.existsById(id)) {
-                throw new RuntimeException("Freelancer not found");
-            }
-            Freelancer freelancer = freelancerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-            freelancerRepository.save(freelancer);
-            return ResponseEntity.ok(new ResponseDto("Service added successfully", 200));
-        } catch (Exception e) {
-            throw new RuntimeException("An error occurred while adding service to freelancer", e);
-        }
-    }
+
 
     public ResponseEntity<ResponseDto> deleteFreelancerById(Long id) {
         try {
@@ -108,7 +95,13 @@ public class FreelancerService {
             if (!freelancerRepository.existsById(freelancer.getId())) {
                 throw new RuntimeException("Freelancer not found");
             }
-
+            freelancer.setMotDePasse(utilisateurRepository.findById(freelancer.getId()).orElseThrow(EntityNotFoundException::new).getMotDePasse());
+            freelancer.setRole(utilisateurRepository.findById(freelancer.getId()).orElseThrow(EntityNotFoundException::new).getRole());
+            freelancer.setEmail(utilisateurRepository.findById(freelancer.getId()).orElseThrow(EntityNotFoundException::new).getEmail());
+            freelancer.setUsername(utilisateurRepository.findById(freelancer.getId()).orElseThrow(EntityNotFoundException::new).getUsername());
+            freelancer.setNom(utilisateurRepository.findById(freelancer.getId()).orElseThrow(EntityNotFoundException::new).getNom());
+            freelancer.setImage(utilisateurRepository.findById(freelancer.getId()).orElseThrow(EntityNotFoundException::new).getImage());
+            freelancer.setEmailVerifier(utilisateurRepository.findById(freelancer.getId()).orElseThrow(EntityNotFoundException::new).isEmailVerifier());
             freelancerRepository.save(freelancer);
             return ResponseEntity.ok(new ResponseDto("Freelancer updated successfully", 200));
 

@@ -1,18 +1,14 @@
 package m2i.ma.Brikol.Admin;
 
-import m2i.ma.Brikol.Admin.Admin;
-import m2i.ma.Brikol.Admin.AdminService;
 import m2i.ma.Brikol.Categorie.CategorieDto;
 import m2i.ma.Brikol.Categorie.CategorieService;
 import m2i.ma.Brikol.Client.Client;
 import m2i.ma.Brikol.Client.ClientService;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
-import m2i.ma.Brikol.Freelancer.Freelancer;
 import m2i.ma.Brikol.Freelancer.FreelancerDto;
 import m2i.ma.Brikol.Service.ServiceDto;
 import m2i.ma.Brikol.Service.ServiceLogic;
 import m2i.ma.Brikol.Service.ServiceRepository;
-import m2i.ma.Brikol.User.Utilisateur;
 import m2i.ma.Brikol.User.dto.UtilisateurResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import m2i.ma.Brikol.Service.Service;
@@ -26,29 +22,29 @@ import java.util.stream.Collectors;
 public class AdminController {
 
 
-
+    @Autowired
     private final AdminService adminService;
 
-
+    @Autowired
     private final ServiceRepository serviceRepository;
 
-
+    @Autowired
     private final ServiceLogic serviceLogic;
 
-
+    @Autowired
     private final CategorieService categorieService;
 
-
-    private final ClientService clientService;
-
     @Autowired
-    public AdminController( AdminService adminService, ServiceRepository serviceRepository, ServiceLogic serviceLogic, CategorieService categorieService, ClientService clientService) {
+    private final ClientService clientService;
+    @Autowired
+    public AdminController(AdminService adminService, ServiceRepository serviceRepository, ServiceLogic serviceLogic, CategorieService categorieService, ClientService clientService) {
         this.adminService = adminService;
         this.serviceRepository = serviceRepository;
         this.serviceLogic = serviceLogic;
         this.categorieService = categorieService;
         this.clientService = clientService;
     }
+
 
     // Endpoint pour supprimer un utilisateur
     @DeleteMapping("/delete/{id}")
@@ -132,7 +128,7 @@ public class AdminController {
 
             // Manually map List<Service> to List<ServiceDto>
             List<ServiceDto> serviceDtos = services.stream()
-                    .map(service -> new ServiceDto(service.getId(), service.getTitre(), service.getDescription(),service.getPrix(),service.getPathImage(),service.getIdfreelancer(),service.getIdcategorie()))
+                    .map(service -> new ServiceDto(service.getId(), service.getTitre(), service.getDescription(),service.getPrix(),service.getPathImage(),service.getIdFreelancer(),service.getCategorie()))
                     .collect(Collectors.toList());
 
             // Return the List of ServiceDto objects wrapped in ResponseEntity
@@ -166,10 +162,9 @@ public class AdminController {
     public ResponseEntity<ResponseDto> deleteService(@RequestBody Service service) {
         try {
             // Call the service logic to delete the service and return a ResponseEntity
-            ResponseEntity<ResponseDto> responseEntity = serviceLogic.supprimerService(service);
 
             // Return the ResponseEntity as is
-            return responseEntity;
+            return serviceLogic.supprimerService(service);
         } catch (Exception e) {
             // Handle errors and send a failure response
             ResponseDto errorResponse = new ResponseDto("Failed to delete service: " + e.getMessage(), 500);

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import m2i.ma.Brikol.User.Role;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,10 +16,6 @@ import m2i.ma.Brikol.User.Role;
 public class FreelancerDto  {
     @NotNull(message = "ID cannot be null")
     private Long id;
-
-
-
-    private Role role = Role.Freelancer;
 
     @Email(message = "Public Email must be valid")
     private String publicEmail;
@@ -55,8 +53,8 @@ public class FreelancerDto  {
     @NotBlank(message = "Address cannot be blank")
     @Size(max = 255, message = "Address cannot exceed 255 characters")
     private String address;
-    @NotBlank(message = "Image URL cannot be blank")
-    private String image;
+
+
 
 
     public Freelancer toFreelancer(FreelancerDto freelancerDto) {
@@ -70,8 +68,6 @@ public class FreelancerDto  {
         freelancer.setCity(freelancerDto.getCity());
         freelancer.setZip(freelancerDto.getZip());
         freelancer.setAddress(freelancerDto.getAddress());
-        freelancer.setImage(freelancerDto.getImage());
-        freelancer.setRole(freelancerDto.getRole());
         return freelancer;
     }
 }

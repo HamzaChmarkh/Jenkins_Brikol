@@ -2,10 +2,7 @@ package m2i.ma.Brikol.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import m2i.ma.Brikol.Categorie.Categorie;
-import m2i.ma.Brikol.Categorie.CategorieService;
 import m2i.ma.Brikol.Exceptions.ResponseDto;
-import m2i.ma.Brikol.Freelancer.Freelancer;
 import m2i.ma.Brikol.Freelancer.FreelancerService;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +38,7 @@ public class ServiceLogic {
     public ServiceDto getServiceDto(Service service) {
         try {
             FreelancerService.checkNull(service, SERVICE_NULL);
-            return new ServiceDto(service.getId(), service.getTitre(), service.getDescription(), service.getPrix(), service.getPathImage(), service.getIdfreelancer(),service.getIdcategorie());
+            return new ServiceDto(service.getId(), service.getTitre(), service.getDescription(), service.getPrix(), service.getPathImage(), service.getIdFreelancer(),service.getCategorie());
 
         } catch (ServiceException e) {
             throw new RuntimeException(e);
@@ -59,9 +56,9 @@ public class ServiceLogic {
             throw new ServiceException("Price is null");
         } else if (service.getPathImage() == null) {
             throw new ServiceException("Image path is null");
-        } else if (service.getIdfreelancer() == null) {
+        } else if (service.getIdFreelancer() == null) {
             throw new ServiceException("Freelancer is null");
-        } else if (service.getIdcategorie() == null) {
+        } else if (service.getCategorie() == null) {
             throw new ServiceException("Category is null");
         }
 
@@ -78,11 +75,10 @@ public class ServiceLogic {
     }
 
 
-    public ResponseEntity<List<ServiceDto>> getServiceByCategorie(Categorie categorie) {
+    public ResponseEntity<List<ServiceDto>> getServiceByCategorie(Long id) {
         try {
-            FreelancerService.checkNull(categorie, CATEGORY_NULL);
-            CategorieService.checkCategory(categorie);
-            return ResponseEntity.ok(serviceRepository.findByIdcategorie(categorie).stream().map(this::getServiceDto).toList());
+
+            return ResponseEntity.ok(serviceRepository.findByCategorie(id).stream().map(this::getServiceDto).toList());
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by category", e);
         }
@@ -112,11 +108,10 @@ public class ServiceLogic {
         }
     }
 
-    public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(Freelancer freelancer) {
+    public ResponseEntity<List<ServiceDto>> getServiceByFreelancer(Long id) {
         try {
-            FreelancerService.checkNull(freelancer, "Freelancer is null");
-            FreelancerService.checkFreelancer(freelancer);
-            return ResponseEntity.ok(serviceRepository.findByIdfreelancer(freelancer.getId()).stream().map(this::getServiceDto).toList());
+
+            return ResponseEntity.ok(serviceRepository.findByIdFreelancer(id).stream().map(this::getServiceDto).toList());
         } catch (Exception e) {
             throw new ServiceException("An error occurred while fetching the service by freelancer", e);
         }

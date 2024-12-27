@@ -1,5 +1,6 @@
 package m2i.ma.Brikol.Service;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,14 +28,13 @@ public class Service {
     @Column(name = "path_image")
     String pathImage;
 
-    @PrimaryKeyJoinColumn(name = "idfreelancer")
-    private Long Idfreelancer;
-
-    @PrimaryKeyJoinColumn(name = "idcategorie")
-    private Categorie Idcategorie;
+    @Column(name = "idFreelancer")
+    private Long idFreelancer;
+    @Column(name = "categorie")
+    private Long categorie;
     
     public Object toServiceDto(){
-        return new ServiceDto(this.id, this.titre, this.description, this.prix, this.pathImage, this.Idfreelancer, this.Idcategorie);
+        return new ServiceDto(this.id, this.titre, this.description, this.prix, this.pathImage, this.idFreelancer, this.categorie);
     }
 
 }

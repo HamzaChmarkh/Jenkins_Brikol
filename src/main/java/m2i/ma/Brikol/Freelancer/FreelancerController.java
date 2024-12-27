@@ -8,6 +8,7 @@ import m2i.ma.Brikol.Service.Service;
 import m2i.ma.Brikol.Service.ServiceDto;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,11 +33,7 @@ public class FreelancerController {
         }
 
     }
-    @PostMapping("/add/{id}")
-    public ResponseEntity<ResponseDto> addService(@Valid @PathVariable Long id,@Valid ServiceDto serviceDto) {
-        Service service = serviceDto.toService();
-        return freelancerService.addServiceToFreelancer(id, service);
-    }
+
 
     @GetMapping("/get/{id}")
     public ResponseEntity<FreelancerDto> getFreelancer(@PathVariable Long id) {
@@ -50,9 +47,9 @@ public class FreelancerController {
 
 
 
-    @PostMapping("/Modify")
-    public ResponseEntity<ResponseDto> modifyFreelancer(@Valid @RequestBody FreelancerDto freelancerDto) {
-        Freelancer freelancer = freelancerDto.toFreelancer(freelancerDto);
+    @PostMapping(value = "/Modify", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDto> modifyFreelancer(@Valid @RequestBody Freelancer freelancer) {
+
 
         return freelancerService.modifyFreelancer(freelancer);
     }

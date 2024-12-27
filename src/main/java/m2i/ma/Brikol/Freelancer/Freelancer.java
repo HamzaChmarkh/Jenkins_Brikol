@@ -10,6 +10,7 @@ import m2i.ma.Brikol.User.Role;
 import m2i.ma.Brikol.User.Utilisateur;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -20,6 +21,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name = "id")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Freelancer extends Utilisateur {
 
 
@@ -52,14 +54,10 @@ public class Freelancer extends Utilisateur {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "image")
-    private String image;
 
 
-    private Role role = Role.Freelancer;
-
-   public FreelancerDto toFreelancerDto(){
-         return new FreelancerDto(this.id,this.role,this.nickName, this.publicEmail, this.description, this.phoneNumber, this.region, this.city, this.zip, this.address, this.image);
+    public FreelancerDto toFreelancerDto(){
+         return new FreelancerDto(this.id,this.publicEmail,this.nickName, this.description, this.phoneNumber, this.region, this.city, this.zip, this.address);
    }
 
 

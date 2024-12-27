@@ -32,6 +32,11 @@ public class CategorieDto {
 
 
     public Categorie toCategorie() {
-        return new Categorie(id,titreAr, titreFr, titreEn);
+        Categorie categorie = new Categorie();
+        categorie.setId(this.id);
+        categorie.setTitreAr(this.titreAr);
+        categorie.setTitreFr(this.titreFr);
+        categorie.setTitreEn(this.titreEn);
+        return categorie;
     }
 }

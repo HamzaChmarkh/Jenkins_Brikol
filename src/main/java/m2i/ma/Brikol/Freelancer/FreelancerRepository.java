@@ -5,9 +5,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
+    // Additional custom queries for Freelancer can go here, if needed
 
-
-    Freelancer findByUsername(String username);
-
-    boolean existsByUsername(String username);
+    @Override
+    <S extends Freelancer> S saveAndFlush(S entity);
 }
