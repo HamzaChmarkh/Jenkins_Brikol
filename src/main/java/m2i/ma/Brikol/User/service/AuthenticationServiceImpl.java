@@ -110,17 +110,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             Freelancer freelancer = new Freelancer();
             freelancer.setNom(signUpRequest.getName());
             freelancer.setEmail(signUpRequest.getEmail());
+            freelancer.setUsername(signUpRequest.getEmail().substring(0, signUpRequest.getEmail().indexOf('@')));
             freelancer.setMotDePasse(new BCryptPasswordEncoder(12).encode(signUpRequest.getPassword()));
             freelancer.setRole(Role.Freelancer);
             freelancer.setNewUser(true);
+            freelancer.setImage("/image/" + freelancer.getUsername() + ".jpg");
             savedUtilisateur = utilisateurRepository.save(freelancer);
         }else{
             Client client = new Client();
             client.setNom(signUpRequest.getName());
             client.setEmail(signUpRequest.getEmail());
+            client.setUsername(signUpRequest.getEmail().substring(0, signUpRequest.getEmail().indexOf('@')));
             client.setMotDePasse(new BCryptPasswordEncoder(12).encode(signUpRequest.getPassword()));
             client.setRole(Role.Client);
             client.setNewUser(true);
+            client.setImage("/image/" + client.getUsername() + ".jpg");
             savedUtilisateur = utilisateurRepository.save(client);
         }
 
